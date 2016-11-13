@@ -7,10 +7,14 @@ public class keyboardMovement : MonoBehaviour
     public float bulletSpeed;
     public GameObject bullet;
     public float rayCastLength;
+    public bool canFire;
+    public float attackSpeedTimer;
+    public float attackSpeed;
     // Use this for initialization
     void Start()
     {
-
+        attackSpeedTimer = attackSpeed;
+        canFire = true;
     }
 
     // Update is called once per frame
@@ -72,32 +76,64 @@ public class keyboardMovement : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) && canFire)
         {
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.forward * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.forward * bulletSpeed, ForceMode.Impulse);
+
+            if (canFire)
+            {
+                canFire = false;
+            }
+            
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) && canFire)
         {
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.back * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.back * bulletSpeed, ForceMode.Impulse);
+
+            if (canFire)
+            {
+                canFire = false;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && canFire)
         {
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.left * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.left * bulletSpeed, ForceMode.Impulse);
+
+            if (canFire)
+            {
+                canFire = false;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && canFire)
         {
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.right * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.right * bulletSpeed, ForceMode.Impulse);
+
+            if (canFire)
+            {
+                canFire = false;
+            }
+        }
+
+        if (canFire == false)
+        {
+            attackSpeedTimer -= Time.deltaTime;
+
+            if (attackSpeedTimer <= 0)
+            {
+                attackSpeedTimer = attackSpeed;
+                canFire = true;
+            }
         }
     }
 
