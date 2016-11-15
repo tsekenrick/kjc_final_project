@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RaycastCursorDemo : MonoBehaviour {
+public class MousePlayer : MonoBehaviour {
 
 	public Transform block;
 	public bool canSpawn = true;
@@ -18,7 +18,7 @@ public class RaycastCursorDemo : MonoBehaviour {
 
 		//Step 3: Shoot the raycast; often in an if() statement
 		if (Physics.Raycast (ray, out rayHit, 1000f)) {
-			Debug.Log ("I'm hitting something! There's something undeneath the mouse cursor!");
+			Debug.Log ("I'm hitting something!");
 
 			//Move sphere to position
 			//block.position = rayHit.point;
