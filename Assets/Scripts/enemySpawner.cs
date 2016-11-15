@@ -9,7 +9,6 @@ public class enemySpawner : MonoBehaviour {
 	public int spawnBuffer; 
 
 	private float spawnTime; 
-	private bool canSpawn = false; 
 
 	// Use this for initialization
 	void Start () {
@@ -19,16 +18,13 @@ public class enemySpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		// Make the spawnTime go up by 1 every second
 		spawnTime += Time.deltaTime; 
-		Debug.Log (spawnTime);
-		if (spawnTime > spawnBuffer) {
-			canSpawn = true; 
-			//Instantiate (Enemy, transform.position, transform.rotation);
-		}
 
-		if (canSpawn == true) {
+		// If the spawnTime > spawnBuffer, spawn the enemy and reset the spawnTime 
+		if (spawnTime > spawnBuffer) {
 			Instantiate (Enemy, transform.position, transform.rotation);
-			canSpawn = false; 
+			spawnTime = 0;
 		}
 	}
 }

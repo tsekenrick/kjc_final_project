@@ -3,10 +3,15 @@ using System.Collections;
 
 public class TestPlayerMovement : MonoBehaviour {
 
+	public Vector3 currentPosition; 
+
 	public int moveSpeed; 
 
 	// Update is called once per frame
 	void Update () {
+
+		currentPosition = new Vector3 (transform.position.x, transform.position.y, transform.position.z); 
+		transform.position = currentPosition;
 
 		float inputX = Input.GetAxis ("Horizontal"); 
 		float inputZ = Input.GetAxis ("Vertical"); 
