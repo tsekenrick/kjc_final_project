@@ -3,7 +3,7 @@ using System.Collections;
 
 public class enemyMovement : MonoBehaviour {
 
-	public Transform player;
+	public GameObject player;
 
 	public Rigidbody rb; 
 
@@ -11,7 +11,8 @@ public class enemyMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+
+		player = GameObject.Find ("Player Test");
 		rb = this.GetComponent<Rigidbody> ();
 
 	}
@@ -19,15 +20,12 @@ public class enemyMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (player == null) {
+		if (player == null || !player.gameObject.activeInHierarchy) {
 			return;
 		}
 
 		// Get the position of the player 
-		Vector3 playerPos = GameObject.Find ("Player Test").transform.position; 
-
-		// This one doesn't work 
-		//Vector3 playerPos = player.transform.position;
+		Vector3 playerPos = player.transform.position; 
 
 		Vector3 directionToPlayer = new Vector3 (); 
 		directionToPlayer = playerPos - this.transform.position; 
