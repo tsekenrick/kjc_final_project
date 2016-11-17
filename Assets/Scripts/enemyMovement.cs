@@ -12,7 +12,7 @@ public class enemyMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		player = GameObject.Find ("Player Test");
+		player = GameObject.Find ("player");
 		rb = this.GetComponent<Rigidbody> ();
 
 	}
