@@ -25,7 +25,14 @@ public class keyboardMovement : MonoBehaviour
         Ray fwdRay = new Ray(transform.position, Vector3.forward);
         RaycastHit fwdRayInfo;
         if (Physics.Raycast(fwdRay, out fwdRayInfo, rayCastLength))
-        {            
+        {
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.W))
+            {
+                if (fwdRayInfo.collider.tag == "Wall")
+                {
+                    Destroy(fwdRayInfo.collider.gameObject);
+                }
+            }
             Debug.Log("thing hit fwd");
         }
 
@@ -33,20 +40,41 @@ public class keyboardMovement : MonoBehaviour
         RaycastHit backRayInfo;
         if (Physics.Raycast(backRay, out backRayInfo, rayCastLength))
         {            
+            if(Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.S))
+            {
+                if(backRayInfo.collider.tag == "Wall")
+                {
+                    Destroy(backRayInfo.collider.gameObject);
+                }
+            }
             Debug.Log("thing hit back");
         }
 
         Ray leftRay = new Ray(transform.position, Vector3.left);
         RaycastHit leftRayInfo;
         if (Physics.Raycast(leftRay, out leftRayInfo, rayCastLength))
-        {            
+        {
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.A))
+            {
+                if (leftRayInfo.collider.tag == "Wall")
+                {
+                    Destroy(leftRayInfo.collider.gameObject);
+                }
+            }
             Debug.Log("thing hit left");
         }
 
         Ray rightRay = new Ray(transform.position, Vector3.right);
         RaycastHit rightRayInfo;
-        if (Physics.Raycast(fwdRay, out rightRayInfo, rayCastLength))
-        {           
+        if (Physics.Raycast(rightRay, out rightRayInfo, rayCastLength))
+        {
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.D))
+            {
+                if (rightRayInfo.collider.tag == "Wall")
+                {
+                    Destroy(rightRayInfo.collider.gameObject);
+                }
+            }
             Debug.Log("thing hit right");
         }
 
@@ -76,6 +104,55 @@ public class keyboardMovement : MonoBehaviour
         }
 
 
+        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow) && canFire)
+        {
+            Debug.Log("diag conditions met");
+            GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+            newBullet.transform.position += new Vector3(1, 0, -1) * bulletSpeed * Time.deltaTime;
+            newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, -1) * bulletSpeed, ForceMode.Impulse);
+
+            if (canFire)
+            {
+                canFire = false;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow) && canFire)
+        {
+            GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+            newBullet.transform.position += new Vector3(-1, 0, -1) * bulletSpeed * Time.deltaTime;
+            newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, -1) * bulletSpeed, ForceMode.Impulse);
+
+            if (canFire)
+            {
+                canFire = false;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.LeftArrow) && canFire)
+        {
+            GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+            newBullet.transform.position += new Vector3(-1, 0, 1) * bulletSpeed * Time.deltaTime;
+            newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, 1) * bulletSpeed, ForceMode.Impulse);
+
+            if (canFire)
+            {
+                canFire = false;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.RightArrow) && canFire)
+        {
+            GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
+            newBullet.transform.position += new Vector3(-1, 0, 1) * bulletSpeed * Time.deltaTime;
+            newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, 1) * bulletSpeed, ForceMode.Impulse);
+
+            if (canFire)
+            {
+                canFire = false;
+            }
+        }
+
         if (Input.GetKey(KeyCode.UpArrow) && canFire)
         {
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
@@ -88,6 +165,7 @@ public class keyboardMovement : MonoBehaviour
             }
             
         }
+
 
         if (Input.GetKey(KeyCode.DownArrow) && canFire)
         {
@@ -124,6 +202,8 @@ public class keyboardMovement : MonoBehaviour
                 canFire = false;
             }
         }
+
+        
 
         if (canFire == false)
         {

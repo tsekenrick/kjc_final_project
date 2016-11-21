@@ -18,7 +18,7 @@ public class MousePlayer : MonoBehaviour {
 
 		//Step 3: Shoot the raycast; often in an if() statement
 		if (Physics.Raycast (ray, out rayHit, 1000f)) {
-			Debug.Log ("I'm hitting something!");
+			//Debug.Log ("I'm hitting something!");
 
 			//Move sphere to position
 			//block.position = rayHit.point;
