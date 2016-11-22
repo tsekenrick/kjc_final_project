@@ -8,6 +8,8 @@ public class enemySpawner : MonoBehaviour {
 
 	public int spawnBuffer; 
 
+	public int spawnerRotation;
+
 	private float randombuffer; 
 	private float initialSpawn; 
 
@@ -24,7 +26,7 @@ public class enemySpawner : MonoBehaviour {
 	void Update () {
 
 		if (spawnTime > spawnBuffer + initialSpawn) {
-			Instantiate (Enemy, transform.position, transform.rotation);
+			Instantiate (Enemy, transform.position + transform.forward, transform.rotation);
 			spawnTime = 0;
 			spawnCycle = true;
 		}
@@ -35,7 +37,7 @@ public class enemySpawner : MonoBehaviour {
 		// If the spawnTime > spawnBuffer, spawn the enemy and reset the spawnTime 
 		if (spawnTime > spawnBuffer + randombuffer && spawnCycle == true) {
 			randombuffer = Random.Range (0, 5);
-			Instantiate (Enemy, transform.position, transform.rotation);
+			Instantiate (Enemy, transform.position + transform.forward, transform.rotation);
 			spawnTime = 0;
 		}
 	}
