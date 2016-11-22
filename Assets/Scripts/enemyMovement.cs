@@ -47,6 +47,7 @@ public class enemyMovement : MonoBehaviour {
 
 	void OnCollisionEnter(Collision coll){
 		if (coll.gameObject.tag == "Bullet") {
+			gameManager.score++;
 			Destroy (gameObject);
 		}
 	}
