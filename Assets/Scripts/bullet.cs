@@ -21,7 +21,7 @@ public class bullet : MonoBehaviour {
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Block")
         {
             Destroy(this.gameObject);
         }

@@ -40,7 +40,7 @@ public class enemyMovement : MonoBehaviour {
 
 		if (Physics.Raycast (enemyRay, out enemyRayHitInfo, 1f) == true) {
 			if (enemyRayHitInfo.collider.tag == "Player") {
-				Destroy (player);
+                player.GetComponent<keyboardMovement>().decreaseHealth();
 			}
 		}
 
