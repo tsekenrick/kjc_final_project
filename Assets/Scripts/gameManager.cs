@@ -20,6 +20,8 @@ public class gameManager : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.R)) {
 			score = 0;
+			enemySpawner.enemySpawned = 0; 
+			enemySpawner.enemyKilled = 0;
 			SceneManager.LoadScene (0);
 		}
 

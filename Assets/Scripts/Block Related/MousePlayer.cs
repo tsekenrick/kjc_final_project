@@ -4,7 +4,13 @@ using System.Collections;
 public class MousePlayer : MonoBehaviour {
 
 	public Transform block;
+	public GameObject reticule;
 	public bool canSpawn = true;
+
+	void Start(){
+		Physics.gravity = new Vector3 (0f, -20f, 0f);
+	}
+
 
 	// Update is called once per frame
 	void Update () {
@@ -23,15 +29,19 @@ public class MousePlayer : MonoBehaviour {
 			//Move sphere to position
 			//block.position = rayHit.point;
 
-			//Instantiate a copy on click
-			if (Input.GetMouseButtonUp (0) && canSpawn) {
-				//Locks spawn point to nearest integer - cube; assumes block size of 1,1,1
-				Vector3 spawnPoint = new Vector3 (Mathf.Round(rayHit.point.x), rayHit.point.y, Mathf.Round(rayHit.point.z));
+			//Locks spawn point to nearest integer - cube; assumes block size of 1,1,1
+			Vector3 spawnPoint = new Vector3 (Mathf.Round(rayHit.point.x) , rayHit.point.y, Mathf.Round(rayHit.point.z )+0.5f);
 
-				//Instantiates a block, then stops multiple blocks from being instantiated in the same click
-				Instantiate (block, spawnPoint + new Vector3 (0.5f, 10f, 0.5f), Quaternion.identity);
-				//canSpawn = false;
-			}
+			//Moves the aiming reitucle based on the mouse position
+			reticule.transform.position = spawnPoint;
+		}
+
+		//Instantiate a copy on click
+		if (Input.GetMouseButtonUp (0) && canSpawn) {
+
+			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
+			Instantiate (block, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);
+			//canSpawn = false;
 		}
 	}
 
