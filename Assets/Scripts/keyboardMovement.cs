@@ -1,5 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class keyboardMovement : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class keyboardMovement : MonoBehaviour
     public bool canFire;
     public float attackSpeedTimer;
     public float attackSpeed;
+    public float health = 3;
+    public float ammo = 10;
+    public bool canHurt = true;
+    public float iFrameDur = 1;
     // Use this for initialization
     void Start()
     {
@@ -21,7 +26,24 @@ public class keyboardMovement : MonoBehaviour
     void Update()
     {
 
-        //raycast code
+        if (canHurt == false)
+        {
+            iFrameDur -= Time.deltaTime;
+        }
+
+        if (iFrameDur <= 0)
+        {
+            canHurt = true;
+            iFrameDur = 3;
+        }
+
+        if (health <= 0)
+        {
+            SceneManager.LoadScene(1);
+            Destroy(gameObject);
+        }
+
+        //raycast code and wall destruction code
         Ray fwdRay = new Ray(transform.position, Vector3.forward);
         RaycastHit fwdRayInfo;
         if (Physics.Raycast(fwdRay, out fwdRayInfo, rayCastLength))
@@ -30,6 +52,7 @@ public class keyboardMovement : MonoBehaviour
             {
                 if (fwdRayInfo.collider.tag == "Block")
                 {
+                    ammo += 3;
                     Destroy(fwdRayInfo.collider.gameObject);
                 }
             }
@@ -44,6 +67,7 @@ public class keyboardMovement : MonoBehaviour
             {
                 if(backRayInfo.collider.tag == "Block")
                 {
+                    ammo += 3;
                     Destroy(backRayInfo.collider.gameObject);
                 }
             }
@@ -58,6 +82,7 @@ public class keyboardMovement : MonoBehaviour
             {
                 if (leftRayInfo.collider.tag == "Block")
                 {
+                    ammo += 3;
                     Destroy(leftRayInfo.collider.gameObject);
                 }
             }
@@ -72,16 +97,19 @@ public class keyboardMovement : MonoBehaviour
             {
                 if (rightRayInfo.collider.tag == "Block")
                 {
+                    ammo += 3;
                     Destroy(rightRayInfo.collider.gameObject);
                 }
             }
             Debug.Log("thing hit right");
         }
 
+        //code to draw raycasts
         Debug.DrawRay(fwdRay.origin, fwdRay.direction * rayCastLength, Color.red);
         Debug.DrawRay(backRay.origin, backRay.direction * rayCastLength, Color.red);
         Debug.DrawRay(leftRay.origin, leftRay.direction * rayCastLength, Color.red);
         Debug.DrawRay(rightRay.origin, rightRay.direction * rayCastLength, Color.red);
+
         //movement code
         if (Input.GetKey(KeyCode.W))
         {
@@ -103,10 +131,11 @@ public class keyboardMovement : MonoBehaviour
             transform.position += Vector3.right * moveSpeed * Time.deltaTime;
         }
 
-
+        //code for shooting
         if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow) && canFire)
         {
-            Debug.Log("diag conditions met");
+            ammo -= 1;
+            //Debug.Log("diag conditions met");
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += new Vector3(1, 0, -1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, -1) * bulletSpeed, ForceMode.Impulse);
@@ -119,6 +148,7 @@ public class keyboardMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftArrow) && canFire)
         {
+            ammo -= 1;
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += new Vector3(-1, 0, -1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, -1) * bulletSpeed, ForceMode.Impulse);
@@ -131,6 +161,7 @@ public class keyboardMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.LeftArrow) && canFire)
         {
+            ammo -= 1;
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += new Vector3(-1, 0, 1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, 1) * bulletSpeed, ForceMode.Impulse);
@@ -143,6 +174,7 @@ public class keyboardMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.RightArrow) && canFire)
         {
+            ammo -= 1;
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += new Vector3(-1, 0, 1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, 1) * bulletSpeed, ForceMode.Impulse);
@@ -155,6 +187,7 @@ public class keyboardMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow) && canFire)
         {
+            ammo -= 1;
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.forward * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.forward * bulletSpeed, ForceMode.Impulse);
@@ -169,6 +202,7 @@ public class keyboardMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.DownArrow) && canFire)
         {
+            ammo -= 1;
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.back * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.back * bulletSpeed, ForceMode.Impulse);
@@ -181,6 +215,7 @@ public class keyboardMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow) && canFire)
         {
+            ammo -= 1;
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.left * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.left * bulletSpeed, ForceMode.Impulse);
@@ -193,6 +228,7 @@ public class keyboardMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.RightArrow) && canFire)
         {
+            ammo -= 1;
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.right * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.right * bulletSpeed, ForceMode.Impulse);
@@ -205,7 +241,7 @@ public class keyboardMovement : MonoBehaviour
 
         
 
-        if (canFire == false)
+        if (canFire == false && ammo > 0)
         {
             attackSpeedTimer -= Time.deltaTime;
 
@@ -215,7 +251,16 @@ public class keyboardMovement : MonoBehaviour
                 canFire = true;
             }
         }
+
     }
 
+    public void decreaseHealth()
+    {
+        if (canHurt)
+        {
+            health--;
+            canHurt = false;
+        }
 
+    }
 }
