@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class gameManager : MonoBehaviour {
 
-	public static int score; 
+	public int score; 
 	static int highestScore = 0;
 
 	public Text Score; 
@@ -13,7 +13,7 @@ public class gameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		score = 0;
 	}
 	
 	// Update is called once per frame
