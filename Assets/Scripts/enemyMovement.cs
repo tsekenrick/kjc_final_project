@@ -7,12 +7,15 @@ public class enemyMovement : MonoBehaviour {
 
 	public Rigidbody rb; 
 
+	public gameManager gm;
+
 	public int enemySpeed; 
 
 	// Use this for initialization
 	void Start () {
 
 		player = GameObject.Find ("player");
+		gm = GameObject.Find ("GameManager");
 		rb = this.GetComponent<Rigidbody> ();
 
 	}
@@ -43,7 +46,15 @@ public class enemyMovement : MonoBehaviour {
                 player.GetComponent<keyboardMovement>().decreaseHealth();
 			}
 		}
+	}
 
+	void OnCollisionEnter(Collision coll){
+		if (coll.gameObject.tag == "Bullet") {
+			gm.score++;
+			enemySpawner.enemySpawned--; 
+			enemySpawner.enemyKilled++;
+			Destroy (gameObject);
+		}
 	}
 
     public void destroy()
