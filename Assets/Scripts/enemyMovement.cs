@@ -7,7 +7,7 @@ public class enemyMovement : MonoBehaviour {
 
 	public Rigidbody rb; 
 
-	public gameManager gm;
+	public GameObject gm;
 
 	public int enemySpeed; 
 
@@ -48,9 +48,9 @@ public class enemyMovement : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision coll){
+	void OnTriggerEnter(Collider coll){
 		if (coll.gameObject.tag == "Bullet") {
-			gm.score++;
+			gm.GetComponent<gameManager>().score++;
 			enemySpawner.enemySpawned--; 
 			enemySpawner.enemyKilled++;
 			Destroy (gameObject);
