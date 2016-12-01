@@ -58,7 +58,7 @@ public class enemySpawner : MonoBehaviour {
 				spawnTime = 0;
 			}
 		}
-
+			
 		Debug.Log ( " Enemy Spawned" + enemySpawned);
 
 		// If the cap of enemies is reached, stop the spawning
