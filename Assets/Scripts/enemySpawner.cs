@@ -30,7 +30,7 @@ public class enemySpawner : MonoBehaviour {
 	void Start () {
 		initialSpawn = Random.Range (0, 7); 
 
-		spawnCap = 10;
+		spawnCap = 5;
 	}
 
 	// Update is called once per frame
@@ -68,8 +68,8 @@ public class enemySpawner : MonoBehaviour {
 			spawnlimit = false;
 		}
 
-		// If the number of enemies killed is divisible by 20, the set addCap to true to increase the cap on enemies
-		if (enemyKilled % 10 == 0) {
+		// If 10 enemies are killed, then set addCap to true to increase the cap on enemies
+		if (enemyKilled % 10 == 0 && enemyKilled != 0) {
 			addCap = true;
 		}
 
