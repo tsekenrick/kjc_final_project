@@ -4,7 +4,9 @@ using System.Collections;
 public class MousePlayer : MonoBehaviour {
 
 	//These variables hold stuff related to block spawning
-	public Transform block;
+	public Transform ammoBox;
+	public Transform barricade;
+
 	public GameObject reticule;
 	public bool canSpawn = true;
 
@@ -44,7 +46,14 @@ public class MousePlayer : MonoBehaviour {
 		if (Input.GetMouseButtonUp (0) && canSpawn) {
 
 			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
-			Instantiate (block, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);
+			Instantiate (ammoBox, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);
+			//canSpawn = false;
+		}
+
+		if (Input.GetMouseButtonUp (1) && canSpawn) {
+
+			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
+			Instantiate (barricade, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);
 			//canSpawn = false;
 		}
 	}
