@@ -3,9 +3,13 @@ using System.Collections;
 
 public class MousePlayer : MonoBehaviour {
 
+	//These variables hold stuff related to block spawning
 	public Transform block;
 	public GameObject reticule;
 	public bool canSpawn = true;
+
+	//Allows reticule to ignore certain layers and go behind them
+	public LayerMask raycastLayerMask;
 
 	void Start(){
 		Physics.gravity = new Vector3 (0f, -20f, 0f);
@@ -23,7 +27,7 @@ public class MousePlayer : MonoBehaviour {
 		Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.cyan); 
 
 		//Step 3: Shoot the raycast; often in an if() statement
-		if (Physics.Raycast (ray, out rayHit, 1000f)) {
+		if (Physics.Raycast (ray, out rayHit, 1000f, raycastLayerMask)) {
 			Debug.Log ("I'm hitting something!");
 
 			//Move sphere to position
