@@ -45,7 +45,7 @@ public class enemyMovement : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision coll){
+	void OnTriggerEnter(Collider coll){
 		if (coll.gameObject.tag == "Bullet") {
 			gameManager.score++;
 			enemySpawner.enemySpawned--; 
