@@ -11,10 +11,13 @@ public class keyboardMovement : MonoBehaviour
     public bool canFire;
     public float attackSpeedTimer;
     public float attackSpeed;
-    public float health = 3;
+
+
     public float ammo = 10;
     public bool canHurt = true;
     public float iFrameDur = 1;
+
+
     // Use this for initialization
     void Start()
     {
@@ -37,7 +40,7 @@ public class keyboardMovement : MonoBehaviour
             iFrameDur = 1;
         }*/
 
-        if (health <= 0)
+        if (gameManager.health <= 0)
         {
             SceneManager.LoadScene(1);
             Destroy(gameObject);
@@ -258,7 +261,7 @@ public class keyboardMovement : MonoBehaviour
     {
         if (canHurt)
         {
-            health--;
+            gameManager.health--;
             canHurt = false;
             StartCoroutine(hurtFlash());
         }
