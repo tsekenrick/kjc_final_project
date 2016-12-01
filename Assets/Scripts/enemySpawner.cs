@@ -75,11 +75,15 @@ public class enemySpawner : MonoBehaviour {
 
 		// If addCap is true, add 5 to the cap of the enemies 
 		if (addCap == true) {
-			spawnCap += 5; 
+			spawnCap += 2; 
 			enemyKilled += 1;
 			addCap = false;
 			Debug.Log ( "Spawn Cap" + spawnCap);
 		}
-			
+
+		// If the spawnCap is higher, increase the spawning rate by reducing the spawnBuffer
+		if (enemyKilled % 15 == 0 && enemyKilled != 0) {
+			spawnBuffer -= 1; 
+		}
 	}
 }
