@@ -26,7 +26,7 @@ public class keyboardMovement : MonoBehaviour
     void Update()
     {
 
-        if (canHurt == false)
+        /*if (canHurt == false)
         {
             iFrameDur -= Time.deltaTime;
         }
@@ -34,8 +34,8 @@ public class keyboardMovement : MonoBehaviour
         if (iFrameDur <= 0)
         {
             canHurt = true;
-            iFrameDur = 3;
-        }
+            iFrameDur = 1;
+        }*/
 
         if (health <= 0)
         {
@@ -260,7 +260,34 @@ public class keyboardMovement : MonoBehaviour
         {
             health--;
             canHurt = false;
+            StartCoroutine(hurtFlash());
         }
 
+    }
+
+    /*public IEnumerator decreaseHealth()
+    {
+        if (canHurt)
+        {
+            health--;
+            canHurt = false;
+            StartCoroutine(hurtFlash());                      
+        }
+        //yield return new WaitForSeconds(iFrameDur);
+        //canHurt = true;
+        yield return 0;
+    }*/
+
+    public IEnumerator hurtFlash()
+    {
+        Color originalColor = GetComponent<Renderer>().material.color;
+        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = originalColor;
+        canHurt = true;
     }
 }
