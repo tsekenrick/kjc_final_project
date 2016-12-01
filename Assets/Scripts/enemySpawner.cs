@@ -30,13 +30,13 @@ public class enemySpawner : MonoBehaviour {
 	void Start () {
 		initialSpawn = Random.Range (0, 7); 
 
-		spawnCap = 10;
+		spawnCap = 5;
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		if (spawnlimit == false) {
+		if (spawnCycle == false) {
 			// Makes first enemy from every spawner random
 			if (spawnTime > spawnBuffer + initialSpawn) {
 				Instantiate (Enemy, transform.position + transform.forward, transform.rotation);
@@ -49,9 +49,9 @@ public class enemySpawner : MonoBehaviour {
 		spawnTime += Time.deltaTime; 
 
 		// If the  spawnCap is reached, then the limit is reached and spawners can't spawn
-		if (spawnlimit == false) {
+		if (spawnlimit == false && spawnCycle == true) {
 			// If the spawnTime > spawnBuffer, spawn the enemy and reset the spawnTime 
-			if (spawnTime > spawnBuffer + randombuffer && spawnCycle == true) {
+			if (spawnTime > spawnBuffer + randombuffer) {
 				randombuffer = Random.Range (0, 5);
 				Instantiate (Enemy, transform.position + transform.forward, transform.rotation);
 				enemySpawned += 1;
@@ -59,15 +59,17 @@ public class enemySpawner : MonoBehaviour {
 			}
 		}
 
-		Debug.Log (enemySpawned);
+		Debug.Log ( " Enemy Spawned" + enemySpawned);
 
 		// If the cap of enemies is reached, stop the spawning
 		if (enemySpawned > spawnCap) {
 			spawnlimit = true;
+		} else {
+			spawnlimit = false;
 		}
 
-		// If the number of enemies killed is divisible by 20, the set addCap to true to increase the cap on enemies
-		if (enemyKilled % 20 == 0) {
+		// If 10 enemies are killed, then set addCap to true to increase the cap on enemies
+		if (enemyKilled % 10 == 0 && enemyKilled != 0) {
 			addCap = true;
 		}
 
@@ -76,7 +78,7 @@ public class enemySpawner : MonoBehaviour {
 			spawnCap += 5; 
 			enemyKilled += 1;
 			addCap = false;
-			Debug.Log (spawnCap);
+			Debug.Log ( "Spawn Cap" + spawnCap);
 		}
 			
 	}
