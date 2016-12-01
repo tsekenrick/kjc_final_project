@@ -37,7 +37,7 @@ public class MousePlayer : MonoBehaviour {
 		}
 
 		//Instantiate a copy on click
-		if (Input.GetMouseButtonUp (0) && canSpawn) {
+		if (Input.GetMouseButton (0) && canSpawn) {
 
 			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
 			Instantiate (block, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);
