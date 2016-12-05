@@ -30,7 +30,7 @@ public class MousePlayer : MonoBehaviour {
 
 		//Step 3: Shoot the raycast; often in an if() statement
 		if (Physics.Raycast (ray, out rayHit, 1000f, raycastLayerMask)) {
-			Debug.Log ("I'm hitting something!");
+			//Debug.Log ("I'm hitting something!");
 
 			//Move sphere to position
 			//block.position = rayHit.point;
@@ -43,7 +43,7 @@ public class MousePlayer : MonoBehaviour {
 		}
 
 		//Instantiate a copy on click
-		if (Input.GetMouseButtonUp (0) && canSpawn) {
+		if (Input.GetMouseButton (0) && canSpawn) {
 
 			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
 			Instantiate (ammoBox, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);

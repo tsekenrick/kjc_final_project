@@ -5,7 +5,6 @@ public class GenericBlockScript : MonoBehaviour {
 
 	ParticleSystem[] ptc;
 	ParticleSystem particleTrail;
-
 	// Use this for initialization
 	void Start () {
 		ptc = this.GetComponentsInChildren<ParticleSystem>();

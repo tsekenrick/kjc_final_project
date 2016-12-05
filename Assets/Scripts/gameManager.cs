@@ -34,12 +34,12 @@ public class gameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.R)) {
+		/*if (Input.GetKeyDown (KeyCode.R)) {
 			score = 0;
 			enemySpawner.enemySpawned = 0; 
 			enemySpawner.enemyKilled = 0;
 			SceneManager.LoadScene (0);
-		}
+		}*/
 
 		if (score > highestScore) {
 			highestScore = score;
