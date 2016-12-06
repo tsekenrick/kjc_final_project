@@ -4,10 +4,10 @@ using System.Collections;
 public class enemyMovement : MonoBehaviour {
 
 	public GameObject player;
-    public GameObject mousePlayer;
+	public GameObject mousePlayer;
 	public Rigidbody rb; 
 
-	public GameObject gm;
+	public gameManager gm;
 
 	public int enemySpeed;
 
@@ -18,10 +18,9 @@ public class enemyMovement : MonoBehaviour {
 	void Start () {
         chasing = true;
 		player = GameObject.Find ("player");
-		gm = GameObject.Find ("GameManager");
-        mousePlayer = GameObject.Find("Main Camera");
+		gm = GameObject.Find ("GameManager").GetComponent<gameManager>();
 		rb = this.GetComponent<Rigidbody> ();
-
+		mousePlayer = GameObject.Find ("Main Camera");
 	}
 	
 	// Update is called once per frame
@@ -55,13 +54,16 @@ public class enemyMovement : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collider coll){
-		if (coll.gameObject.tag == "Bullet") {
+	void OnCollisionEnter(Collision coll){
+		/*if (coll.gameObject.tag == "Bullet") {
             Debug.Log("thing happened");
             
-		}
+			enemySpawner.enemySpawned--; 
+			enemySpawner.enemyKilled++;
+			Destroy (gameObject);
+		}*/ //not actually useful rn
 
-        if (coll.gameObject.tag == "Block" || coll.gameObject.tag == "Ammo Block")
+        if (coll.gameObject.tag == "Block")
         {
             
             targetBlock = coll.gameObject;
@@ -73,11 +75,13 @@ public class enemyMovement : MonoBehaviour {
 	}
 
     public void destroy()
-    {
-        gm.GetComponent<gameManager>().score += 10;
-        mousePlayer.GetComponent<MousePlayer>().materials += 10;
-        enemySpawner.enemySpawned--;
-        enemySpawner.enemyKilled++;
+    {	
+		mousePlayer.GetComponent<MousePlayer> ().materials += 2;
+		enemySpawner.enemySpawned--; 
+		enemySpawner.enemyKilled++;
+		Destroy (gameObject);
+		gm.score += 10 * gm.scoreMult;
+		gm.enemiesKilled++;
         Destroy(gameObject);
     }
 

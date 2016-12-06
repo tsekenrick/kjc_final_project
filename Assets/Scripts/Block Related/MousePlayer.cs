@@ -6,16 +6,19 @@ public class MousePlayer : MonoBehaviour {
 	//These variables hold stuff related to block spawning
 	public Transform ammoBox;
 	public Transform barricade;
-    public float materials;
+	public int materials;
 	public GameObject reticule;
 	public bool canSpawn = true;
 
 	//Allows reticule to ignore certain layers and go behind them
 	public LayerMask raycastLayerMask;
 
+	//The game manager object
+	public gameManager gm;
+
 	void Start(){
-		Physics.gravity = new Vector3 (0f, -20f, 0f);
-        materials = 50;
+		Physics.gravity = new Vector3 (0f, -35f, 0f);
+		materials = 10;
 	}
 
 
@@ -44,21 +47,23 @@ public class MousePlayer : MonoBehaviour {
 		}
 
 		//Instantiate a copy on click
-		if (Input.GetMouseButtonUp (0) && canSpawn && materials>=5) {
-
-            //Instantiates a block, then stops multiple blocks from being instantiated in the same click
-            if (Physics.Raycast(ray, out rayHit, 1000f) && rayHit.collider.tag == "Ground"){ //doesn't seem to do anything rn - my attempt to make blocks unstackable. theory is it's because the raycast is masked against everything but ground
-                Instantiate(ammoBox, reticule.transform.position + new Vector3(0.5f, 10f, 0f), Quaternion.identity);
-                materials -= 5;
-            }
-			//canSpawn = false;
-		}
-
-		if (Input.GetMouseButtonUp (1) && canSpawn && materials >= 5) {
+		if (Input.GetMouseButtonUp (0) && canSpawn && materials >0) {
 
 			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
-			Instantiate (barricade, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);
-            materials -= 5;
+			Instantiate (ammoBox, reticule.transform.position  + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
+			//canSpawn = false;
+			materials--;
+			//changes display on the UI
+			gameManager.blockCount--;
+			gm.incrementBlockDisplay();
+		}
+
+		if (Input.GetMouseButtonUp (1) && canSpawn && materials > 0) {
+
+			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
+			Instantiate (barricade, reticule.transform.position  + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
+			materials--;
+			gameManager.blockCount--;
 			//canSpawn = false;
 		}
 	}
