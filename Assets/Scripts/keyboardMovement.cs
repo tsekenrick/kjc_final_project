@@ -23,6 +23,7 @@ public class keyboardMovement : MonoBehaviour
 	private Vector3 aimPoint;
 
 	public CameraController cam;
+	public gameManager gm;
 
 	//returns value used for camera adjustment || see: CameraController
 	public Vector3 adjustedPosition { get { return Vector3.Lerp(thisRigidbody.position, aimPoint, trackingCameraLead); } }
@@ -32,6 +33,7 @@ public class keyboardMovement : MonoBehaviour
     void Start()
     {
 		thisRigidbody = this.GetComponent<Rigidbody> ();
+		gm = GameObject.Find ("GameManager").GetComponent<gameManager> ();
         attackSpeedTimer = attackSpeed;
         canFire = true;
     }
@@ -51,7 +53,7 @@ public class keyboardMovement : MonoBehaviour
 		//Used for camera adjustment
 		aimPoint = aimRay.origin + (aimRay.direction * aimDistance);
 
-        if (canHurt == false)
+        /*if (canHurt == false)
         {
             iFrameDur -= Time.deltaTime;
         }
@@ -59,8 +61,8 @@ public class keyboardMovement : MonoBehaviour
         if (iFrameDur <= 0)
         {
             canHurt = true;
-            iFrameDur = 3;
-        }
+            iFrameDur = 1;
+        }*/
 
         if (gameManager.health <= 0)
         {
@@ -285,13 +287,40 @@ public class keyboardMovement : MonoBehaviour
         {
 			//Subtracts health, then resets values in the game manager
             gameManager.health--;
-			gameManager.scoreMult = 1;
-			gameManager.enemiesKilled = 0;
+			gm.scoreMult = 1;
+			gm.enemiesKilled = 0;
 
 			//Shakes the camera when the player gets hurt
 			cam.ShakeCamera (1, 24, 4, 4, 4);
             canHurt = false;
+            StartCoroutine(hurtFlash());
         }
 
+    }
+
+    /*public IEnumerator decreaseHealth()
+    {
+        if (canHurt)
+        {
+            health--;
+            canHurt = false;
+            StartCoroutine(hurtFlash());                      
+        }
+        //yield return new WaitForSeconds(iFrameDur);
+        //canHurt = true;
+        yield return 0;
+    }*/
+
+    public IEnumerator hurtFlash()
+    {
+        Color originalColor = GetComponent<Renderer>().material.color;
+        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = originalColor;
+        canHurt = true;
     }
 }

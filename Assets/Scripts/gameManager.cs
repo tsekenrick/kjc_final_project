@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class gameManager : MonoBehaviour {
 
 	//Components for caluclating the score
-	public static int score = 0; 
 	public static int highestScore = 0;
-	public static int enemiesKilled = 0; //Used to affect the multiplyer
-	public static int scoreMult = 1;
+	public  int score = 0; 
+	public  int enemiesKilled = 0; //Used to affect the multiplyer
+	public  int scoreMult = 1;
 
 	//Game objects for displaying the score on the UI
 	public Text Score; 
@@ -36,6 +36,7 @@ public class gameManager : MonoBehaviour {
 
 	void Start () {
 		score = 0;
+		scoreMult = 1;
 
 		//populates the block queue ...
 		for (int i = 0; i < blockQueue.Length; i++) {
@@ -46,6 +47,12 @@ public class gameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (scoreMult < 1) {
+			scoreMult = 1;
+		} else if (scoreMult > 4) {
+			scoreMult = 4;
+		}
 
 		//...Then displays it in the UI
 		for (int i = 0; i < blockIcons.Length; i++) {
