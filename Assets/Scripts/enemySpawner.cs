@@ -59,7 +59,7 @@ public class enemySpawner : MonoBehaviour {
 			}
 		}
 			
-		Debug.Log ( " Enemy Spawned" + enemySpawned);
+		//Debug.Log ( " Enemy Spawned" + enemySpawned);
 
 		// If the cap of enemies is reached, stop the spawning
 		if (enemySpawned > spawnCap) {
@@ -78,7 +78,7 @@ public class enemySpawner : MonoBehaviour {
 			spawnCap += 2; 
 			enemyKilled += 1;
 			addCap = false;
-			Debug.Log ( "Spawn Cap" + spawnCap);
+			//Debug.Log ( "Spawn Cap" + spawnCap);
 		}
 
 		// If the spawnCap is higher, increase the spawning rate by reducing the spawnBuffer
