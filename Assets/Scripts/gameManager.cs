@@ -33,6 +33,9 @@ public class gameManager : MonoBehaviour {
 	public Sprite ammoBlock;
 	public Sprite barrBlock;
 
+	public MousePlayer mp;
+	public keyboardMovement kp;
+
 
 	void Start () {
 		score = 0;
@@ -47,6 +50,9 @@ public class gameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		blockCount = mp.materials;
+		ammoCount = kp.ammo;
 
 		if (scoreMult < 1) {
 			scoreMult = 1;

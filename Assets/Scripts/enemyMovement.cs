@@ -4,7 +4,7 @@ using System.Collections;
 public class enemyMovement : MonoBehaviour {
 
 	public GameObject player;
-
+	public GameObject mousePlayer;
 	public Rigidbody rb; 
 
 	public gameManager gm;
@@ -20,7 +20,7 @@ public class enemyMovement : MonoBehaviour {
 		player = GameObject.Find ("player");
 		gm = GameObject.Find ("GameManager").GetComponent<gameManager>();
 		rb = this.GetComponent<Rigidbody> ();
-
+		mousePlayer = GameObject.Find ("Main Camera");
 	}
 	
 	// Update is called once per frame
@@ -55,13 +55,13 @@ public class enemyMovement : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision coll){
-		if (coll.gameObject.tag == "Bullet") {
+		/*if (coll.gameObject.tag == "Bullet") {
             Debug.Log("thing happened");
             
 			enemySpawner.enemySpawned--; 
 			enemySpawner.enemyKilled++;
 			Destroy (gameObject);
-		}
+		}*/ //not actually useful rn
 
         if (coll.gameObject.tag == "Block")
         {
@@ -75,7 +75,11 @@ public class enemyMovement : MonoBehaviour {
 	}
 
     public void destroy()
-    {
+    {	
+		mousePlayer.GetComponent<MousePlayer> ().materials += 2;
+		enemySpawner.enemySpawned--; 
+		enemySpawner.enemyKilled++;
+		Destroy (gameObject);
 		gm.score += 10 * gm.scoreMult;
 		gm.enemiesKilled++;
         Destroy(gameObject);
