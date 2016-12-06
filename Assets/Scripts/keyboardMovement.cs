@@ -17,10 +17,21 @@ public class keyboardMovement : MonoBehaviour
     public bool canHurt = true;
     public float iFrameDur = 1;
 
+	//These values are used specifically for the camera motion
+	public Rigidbody thisRigidbody;
+	public float trackingCameraLead = 0.15f;
+	private Vector3 aimPoint;
+
+	public CameraController cam;
+
+	//returns value used for camera adjustment || see: CameraController
+	public Vector3 adjustedPosition { get { return Vector3.Lerp(thisRigidbody.position, aimPoint, trackingCameraLead); } }
+
 
     // Use this for initialization
     void Start()
     {
+		thisRigidbody = this.GetComponent<Rigidbody> ();
         attackSpeedTimer = attackSpeed;
         canFire = true;
     }
@@ -28,6 +39,17 @@ public class keyboardMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		// Create a ray and an imaginary infinite plane for aim tracking
+		var aimRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+		var aimPlane = new Plane(Vector3.up, thisRigidbody.position);
+
+		// Get the point along the ray where it crosses the plane
+		var aimDistance = 0f;
+		aimPlane.Raycast(aimRay, out aimDistance);
+		aimPoint = aimRay.origin + (aimRay.direction * aimDistance);
+
+		//Used for camera adjustment
+		aimPoint = aimRay.origin + (aimRay.direction * aimDistance);
 
         if (canHurt == false)
         {
@@ -261,7 +283,13 @@ public class keyboardMovement : MonoBehaviour
     {
         if (canHurt)
         {
+			//Subtracts health, then resets values in the game manager
             gameManager.health--;
+			gameManager.scoreMult = 1;
+			gameManager.enemiesKilled = 0;
+
+			//Shakes the camera when the player gets hurt
+			cam.ShakeCamera (1, 24, 4, 4, 4);
             canHurt = false;
         }
 

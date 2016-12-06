@@ -6,15 +6,17 @@ public class MousePlayer : MonoBehaviour {
 	//These variables hold stuff related to block spawning
 	public Transform ammoBox;
 	public Transform barricade;
-
 	public GameObject reticule;
 	public bool canSpawn = true;
 
 	//Allows reticule to ignore certain layers and go behind them
 	public LayerMask raycastLayerMask;
 
+	//The game manager object
+	public gameManager gm;
+
 	void Start(){
-		Physics.gravity = new Vector3 (0f, -20f, 0f);
+		Physics.gravity = new Vector3 (0f, -30f, 0f);
 	}
 
 
@@ -46,14 +48,18 @@ public class MousePlayer : MonoBehaviour {
 		if (Input.GetMouseButtonUp (0) && canSpawn) {
 
 			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
-			Instantiate (ammoBox, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);
+			Instantiate (ammoBox, reticule.transform.position  + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
 			//canSpawn = false;
+
+			//changes display on the UI
+			gameManager.blockCount--;
+			gm.incrementBlockDisplay();
 		}
 
 		if (Input.GetMouseButtonUp (1) && canSpawn) {
 
 			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
-			Instantiate (barricade, reticule.transform.position  + new Vector3 (0.5f, 10f, 0f), Quaternion.identity);
+			Instantiate (barricade, reticule.transform.position  + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
 			//canSpawn = false;
 		}
 	}

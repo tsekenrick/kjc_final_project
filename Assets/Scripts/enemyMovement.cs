@@ -56,6 +56,8 @@ public class enemyMovement : MonoBehaviour {
 
     public void destroy()
     {
+		gameManager.score += 10 * gameManager.scoreMult;
+		gameManager.enemiesKilled++;
         Destroy(gameObject);
     }
 }
