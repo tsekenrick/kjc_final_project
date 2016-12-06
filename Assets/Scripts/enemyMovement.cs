@@ -4,7 +4,7 @@ using System.Collections;
 public class enemyMovement : MonoBehaviour {
 
 	public GameObject player;
-
+    public GameObject mousePlayer;
 	public Rigidbody rb; 
 
 	public GameObject gm;
@@ -19,6 +19,7 @@ public class enemyMovement : MonoBehaviour {
         chasing = true;
 		player = GameObject.Find ("player");
 		gm = GameObject.Find ("GameManager");
+        mousePlayer = GameObject.Find("Main Camera");
 		rb = this.GetComponent<Rigidbody> ();
 
 	}
@@ -54,16 +55,13 @@ public class enemyMovement : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter(Collision coll){
+	void OnCollisionEnter(Collider coll){
 		if (coll.gameObject.tag == "Bullet") {
             Debug.Log("thing happened");
-            gm.GetComponent<gameManager>().score++;
-			enemySpawner.enemySpawned--; 
-			enemySpawner.enemyKilled++;
-			Destroy (gameObject);
+            
 		}
 
-        if (coll.gameObject.tag == "Block")
+        if (coll.gameObject.tag == "Block" || coll.gameObject.tag == "Ammo Block")
         {
             
             targetBlock = coll.gameObject;
@@ -76,6 +74,10 @@ public class enemyMovement : MonoBehaviour {
 
     public void destroy()
     {
+        gm.GetComponent<gameManager>().score += 10;
+        mousePlayer.GetComponent<MousePlayer>().materials += 10;
+        enemySpawner.enemySpawned--;
+        enemySpawner.enemyKilled++;
         Destroy(gameObject);
     }
 

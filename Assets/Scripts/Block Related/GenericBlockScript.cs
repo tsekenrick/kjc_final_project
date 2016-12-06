@@ -16,8 +16,8 @@ public class GenericBlockScript : MonoBehaviour {
 	
 	}
 
-	void OnCollisionEnter(Collision col){
-		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block") {
+    void OnCollisionEnter(Collision col) {
+        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block" || col.gameObject.tag == "Ammo Block") {
 			particleTrail.Stop ();
 		}
 	}

@@ -11,6 +11,7 @@ public class keyboardMovement : MonoBehaviour
     public bool canFire;
     public float attackSpeedTimer;
     public float attackSpeed;
+    public GameObject gm;
 
 
     public float ammo = 10;
@@ -40,7 +41,7 @@ public class keyboardMovement : MonoBehaviour
             iFrameDur = 1;
         }*/
 
-        if (gameManager.health <= 0)
+        if (gm.GetComponent<gameManager>().health <= 0)
         {
             SceneManager.LoadScene(1);
             Destroy(gameObject);
@@ -55,7 +56,13 @@ public class keyboardMovement : MonoBehaviour
             {
                 if (fwdRayInfo.collider.tag == "Block")
                 {
-                    ammo += 3;
+                    ammo += 1;
+                    Destroy(fwdRayInfo.collider.gameObject);
+                }
+
+                if (fwdRayInfo.collider.tag == "Ammo Block")
+                {
+                    ammo += 5;
                     Destroy(fwdRayInfo.collider.gameObject);
                 }
             }
@@ -68,10 +75,16 @@ public class keyboardMovement : MonoBehaviour
         {            
             if(Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.S))
             {
-                if(backRayInfo.collider.tag == "Block")
+                if (fwdRayInfo.collider.tag == "Block")
                 {
-                    ammo += 3;
-                    Destroy(backRayInfo.collider.gameObject);
+                    ammo += 1;
+                    Destroy(fwdRayInfo.collider.gameObject);
+                }
+
+                if (fwdRayInfo.collider.tag == "Ammo Block")
+                {
+                    ammo += 5;
+                    Destroy(fwdRayInfo.collider.gameObject);
                 }
             }
             Debug.Log("thing hit back");
@@ -83,10 +96,16 @@ public class keyboardMovement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.A))
             {
-                if (leftRayInfo.collider.tag == "Block")
+                if (fwdRayInfo.collider.tag == "Block")
                 {
-                    ammo += 3;
-                    Destroy(leftRayInfo.collider.gameObject);
+                    ammo += 1;
+                    Destroy(fwdRayInfo.collider.gameObject);
+                }
+
+                if (fwdRayInfo.collider.tag == "Ammo Block")
+                {
+                    ammo += 5;
+                    Destroy(fwdRayInfo.collider.gameObject);
                 }
             }
             Debug.Log("thing hit left");
@@ -98,10 +117,16 @@ public class keyboardMovement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.D))
             {
-                if (rightRayInfo.collider.tag == "Block")
+                if (fwdRayInfo.collider.tag == "Block")
                 {
-                    ammo += 3;
-                    Destroy(rightRayInfo.collider.gameObject);
+                    ammo += 1;
+                    Destroy(fwdRayInfo.collider.gameObject);
+                }
+
+                if (fwdRayInfo.collider.tag == "Ammo Block")
+                {
+                    ammo += 5;
+                    Destroy(fwdRayInfo.collider.gameObject);
                 }
             }
             Debug.Log("thing hit right");
@@ -261,7 +286,7 @@ public class keyboardMovement : MonoBehaviour
     {
         if (canHurt)
         {
-            gameManager.health--;
+            gm.GetComponent<gameManager>().health--;
             canHurt = false;
             StartCoroutine(hurtFlash());
         }
