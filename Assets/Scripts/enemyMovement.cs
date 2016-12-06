@@ -7,7 +7,7 @@ public class enemyMovement : MonoBehaviour {
 
 	public Rigidbody rb; 
 
-	public GameObject gm;
+	public gameManager gm;
 
 	public int enemySpeed;
 
@@ -18,7 +18,7 @@ public class enemyMovement : MonoBehaviour {
 	void Start () {
         chasing = true;
 		player = GameObject.Find ("player");
-		gm = GameObject.Find ("GameManager");
+		gm = GameObject.Find ("GameManager").GetComponent<gameManager>();
 		rb = this.GetComponent<Rigidbody> ();
 
 	}
@@ -57,7 +57,7 @@ public class enemyMovement : MonoBehaviour {
 	void OnCollisionEnter(Collision coll){
 		if (coll.gameObject.tag == "Bullet") {
             Debug.Log("thing happened");
-            gm.GetComponent<gameManager>().score++;
+            
 			enemySpawner.enemySpawned--; 
 			enemySpawner.enemyKilled++;
 			Destroy (gameObject);
@@ -76,6 +76,8 @@ public class enemyMovement : MonoBehaviour {
 
     public void destroy()
     {
+		gm.score += 10 * gm.scoreMult;
+		gm.enemiesKilled++;
         Destroy(gameObject);
     }
 
