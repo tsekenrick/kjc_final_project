@@ -16,7 +16,7 @@ public class MousePlayer : MonoBehaviour {
 	public gameManager gm;
 
 	void Start(){
-		Physics.gravity = new Vector3 (0f, -30f, 0f);
+		Physics.gravity = new Vector3 (0f, -35f, 0f);
 	}
 
 
