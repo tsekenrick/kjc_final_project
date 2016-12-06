@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
@@ -7,17 +7,15 @@ public class keyboardMovement : MonoBehaviour
     public float moveSpeed;
     public float bulletSpeed;
     public GameObject bullet;
+	public GameObject gm;
     public float rayCastLength;
     public bool canFire;
     public float attackSpeedTimer;
     public float attackSpeed;
-
-
+    //public float health = 3;
     public float ammo = 10;
     public bool canHurt = true;
     public float iFrameDur = 1;
-
-
     // Use this for initialization
     void Start()
     {
@@ -29,7 +27,7 @@ public class keyboardMovement : MonoBehaviour
     void Update()
     {
 
-        if (canHurt == false)
+        /*if (canHurt == false)
         {
             iFrameDur -= Time.deltaTime;
         }
@@ -37,10 +35,10 @@ public class keyboardMovement : MonoBehaviour
         if (iFrameDur <= 0)
         {
             canHurt = true;
-            iFrameDur = 3;
-        }
+            iFrameDur = 1;
+        }*/
 
-        if (gameManager.health <= 0)
+		if (gm.GetComponent<gameManager>().health <= 0)
         {
             SceneManager.LoadScene(1);
             Destroy(gameObject);
@@ -261,9 +259,36 @@ public class keyboardMovement : MonoBehaviour
     {
         if (canHurt)
         {
-            gameManager.health--;
+			gm.GetComponent<gameManager>().health--;
             canHurt = false;
+            StartCoroutine(hurtFlash());
         }
 
+    }
+
+    /*public IEnumerator decreaseHealth()
+    {
+        if (canHurt)
+        {
+            health--;
+            canHurt = false;
+            StartCoroutine(hurtFlash());                      
+        }
+        //yield return new WaitForSeconds(iFrameDur);
+        //canHurt = true;
+        yield return 0;
+    }*/
+
+    public IEnumerator hurtFlash()
+    {
+        Color originalColor = GetComponent<Renderer>().material.color;
+        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = originalColor;
+        canHurt = true;
     }
 }

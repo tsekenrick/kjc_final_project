@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class gameManager : MonoBehaviour {
 
 	//Components for caluclating the score
-	public static int score = 0; 
+	public int score = 0; 
 	public static int highestScore = 0;
 	public static int scoreMult = 1;
 
@@ -17,7 +17,7 @@ public class gameManager : MonoBehaviour {
 	public Sprite[] multSprite;
 
 	//Components relevant for the keyboardPlayer
-	public static int health = 3;
+	public int health = 3;
 	public static int maxHealth = 3;
 	public static int ammoCount = 0;
 	public Image healthBar;
@@ -30,6 +30,7 @@ public class gameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		score = 0;
+		health = 3;
 	}
 	
 	// Update is called once per frame
