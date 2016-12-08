@@ -286,11 +286,18 @@ public class keyboardMovement : MonoBehaviour
 		{
 				if (leftRayInfo.collider.tag == "Block")
 				{
-					if (leftRayInfo.collider.name == "BarracdeCube(Clone)") {
+					if (leftRayInfo.collider.name == "BarracdeCube(Clone)")
+                    {
 						ammo += 1;
-					} else {
+					}
+                    else if (leftRayInfo.collider.name == "wallBlock(Clone)")
+                    {
 						ammo += 3;
 					}
+                    else if (leftRayInfo.collider.name == "healthBox(Clone)")
+                    {
+                        gameManager.health++;
+                    }
 					Destroy(leftRayInfo.collider.gameObject);
 				}
 			}
