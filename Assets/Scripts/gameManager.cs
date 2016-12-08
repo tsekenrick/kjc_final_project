@@ -75,7 +75,7 @@ public class gameManager : MonoBehaviour {
 			//Resets main GameManager values
 			score = 0;
 			health = maxHealth;
-			enemiesKilled = 1;
+			enemiesKilled = 0;
 			scoreMult = 1;
 			blockCount = 10;
 			ammoCount = 0;
