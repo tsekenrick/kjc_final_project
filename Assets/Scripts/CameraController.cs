@@ -49,6 +49,10 @@ public class CameraController : MonoBehaviour
 
             // Decrements the shake timer and clamp at 0
             shakeTimer = Mathf.Max(shakeTimer - Time.deltaTime, 0f);
+	    
+	    // ROBERT: I would *NOT* use camera rotation to shake the camera? 
+	    // camera shake should primarily be a positional effect
+	    // this actually kinda explains why your camera shake feels so weird
         }
         else cameraTransform.localRotation = Quaternion.identity;
 
