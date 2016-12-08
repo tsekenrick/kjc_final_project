@@ -40,6 +40,10 @@ public class enemyMovement : MonoBehaviour {
 
         if (chasing)
         {
+		// ROBERT: ok, so again, I said the same thing in the KeyboardMovement script...
+		// this is a really bad unstable way to do collision-detecting movement
+		// using Rigidbody.AddForce or CharacterController.Move is what you SHOULD do
+		// until then, enemy movement is always going to be glitchy and feel bad
             transform.position = Vector3.MoveTowards(transform.position, playerPos, enemySpeed * Time.deltaTime);
         }
 
@@ -63,15 +67,15 @@ public class enemyMovement : MonoBehaviour {
 			Destroy (gameObject);
 		}*/ //not actually useful rn
 
-        if (coll.gameObject.tag == "Block")
-        {
-            
-            targetBlock = coll.gameObject;
-            if (chasing)
-            {
-                StartCoroutine(attackBlock());
-            }
-        }
+		if (coll.gameObject.tag == "Block")
+		{
+
+		    targetBlock = coll.gameObject;
+		    if (chasing)
+		    {
+			StartCoroutine(attackBlock());
+		    }
+		}
 	}
 
     public void destroy()
