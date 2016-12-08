@@ -6,7 +6,7 @@ public class restartScript : MonoBehaviour {
 
 	public static int score; 
 	static int highestScore = 0;
-    //public GameObject gm;
+
 	//public Text Score; 
 	//public Text highScore;
 
@@ -21,8 +21,7 @@ public class restartScript : MonoBehaviour {
         {
 			gameManager.health = gameManager.maxHealth;
 			score = 0;
-			enemySpawner.enemySpawned = 0;
-            //gm.GetComponent<gameManager>().health = 3;
+			enemySpawner.enemySpawned = 0; 
 			enemySpawner.enemyKilled = 0;
             SceneManager.LoadScene(0);
         }

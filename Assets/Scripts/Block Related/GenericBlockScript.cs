@@ -20,8 +20,8 @@ public class GenericBlockScript : MonoBehaviour {
 	
 	}
 
-    void OnCollisionEnter(Collision col) {
-        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block" || col.gameObject.tag == "Ammo Block") {
+	void OnCollisionEnter(Collision col){
+		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block") {
 			particleTrail.Stop ();
 			cam.ShakeCamera (1, 10, 1.5f, 1.5f, 1.5f);
 		}

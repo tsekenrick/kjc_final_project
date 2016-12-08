@@ -29,11 +29,9 @@ public class gameManager : MonoBehaviour {
 	public static int blockCount = 10;
 	public Text blockDisplay; //Shows how many blocks the mouse player has left to place
 	public int[] blockQueue = new int[4]; //Holds which blocks the player is allowed to place
-    public static int blockType = 0; //determines what block spawns next
 	public Image[] blockIcons = new Image[4]; //Shows which blocks are in cue
 	public Sprite ammoBlock;
 	public Sprite barrBlock;
-    public Sprite healthBlock;
 
 	public MousePlayer mp;
 	public keyboardMovement kp;
@@ -42,26 +40,10 @@ public class gameManager : MonoBehaviour {
 	void Start () {
 		score = 0;
 		scoreMult = 1;
-        health = 3;
+
 		//populates the block queue ...
 		for (int i = 0; i < blockQueue.Length; i++) {
-            float blockInt = Random.value;
-            if (blockInt < .2f)
-            {
-                blockType = 0;
-            }
-
-            else if (blockInt > .2f && blockInt < .4f)
-            {
-                blockType = 1;
-            }
-
-            else
-            {
-                blockType = 2;
-            }
-
-            blockQueue[i] = blockType;
+			blockQueue [i] = (int) Mathf.Round(Random.Range (0f, 1.0f)); 
 		}
 			
 	}
@@ -82,13 +64,9 @@ public class gameManager : MonoBehaviour {
 		for (int i = 0; i < blockIcons.Length; i++) {
 			if (blockQueue [i] == 0) {
 				blockIcons [i].sprite = ammoBlock; //0 = Ammo block
-			} else if (blockQueue[i] == 1){
+			} else {
 				blockIcons [i].sprite = barrBlock; //1 = Barricade Block
-            }
-            else
-            {
-                blockIcons[i].sprite = healthBlock; //2 = health block
-            }
+			}
 		}
 
 		//Resets everything if "R" is pressed

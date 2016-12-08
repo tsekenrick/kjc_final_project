@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class wallBlock : MonoBehaviour {
-    public int blockHealth;
+    public int blockHealth = 3;
 	// Use this for initialization
 	void Start () {
 	
