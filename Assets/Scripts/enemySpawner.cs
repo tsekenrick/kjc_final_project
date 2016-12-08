@@ -82,17 +82,17 @@ public class enemySpawner : MonoBehaviour {
 		}
 
 		// If the spawnCap is higher, increase the spawning rate by reducing the spawnBuffer
-		if (enemyKilled % 15 == 0 && enemyKilled != 0) {
+		if (enemyKilled % 10 == 0 && enemyKilled != 0) {
 			spawnBuffer -= 1; 
 		}
 
 		// The spawnBuffer cannot be lower than 3 seconds
-		if (spawnBuffer < 3) {
-			spawnBuffer = 3;
+		if (spawnBuffer < 2) {
+			spawnBuffer = 2;
 		}
 
 		// If more than 70 enemies are killed, the random buffer changes from 0-5 seconds to 0-3 seconds
-		if (enemyKilled > 70) {
+		if (enemyKilled > 20) {
 			randombuffer = Random.Range (0, 3);
 		}
 	}

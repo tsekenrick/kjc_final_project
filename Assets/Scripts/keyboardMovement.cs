@@ -75,7 +75,7 @@ public class keyboardMovement : MonoBehaviour
         RaycastHit fwdRayInfo;
         if (Physics.Raycast(fwdRay, out fwdRayInfo, rayCastLength))
         {
-            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.W))
+			if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
             {
                 if (fwdRayInfo.collider.tag == "Block")
                 {
@@ -90,7 +90,7 @@ public class keyboardMovement : MonoBehaviour
         RaycastHit backRayInfo;
         if (Physics.Raycast(backRay, out backRayInfo, rayCastLength))
         {            
-            if(Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.S))
+			if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.S))
             {
                 if(backRayInfo.collider.tag == "Block")
                 {
@@ -105,7 +105,7 @@ public class keyboardMovement : MonoBehaviour
         RaycastHit leftRayInfo;
         if (Physics.Raycast(leftRay, out leftRayInfo, rayCastLength))
         {
-            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.A))
+			if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.A))
             {
                 if (leftRayInfo.collider.tag == "Block")
                 {
@@ -120,7 +120,7 @@ public class keyboardMovement : MonoBehaviour
         RaycastHit rightRayInfo;
         if (Physics.Raycast(rightRay, out rightRayInfo, rayCastLength))
         {
-            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.D))
+			if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D))
             {
                 if (rightRayInfo.collider.tag == "Block")
                 {
