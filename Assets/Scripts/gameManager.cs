@@ -50,6 +50,7 @@ public class gameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		// ROBERT: good commenting here btw
 
 		blockCount = mp.materials;
 		ammoCount = kp.ammo;
@@ -98,7 +99,8 @@ public class gameManager : MonoBehaviour {
 		//caclulates the health bar percentage/color
 		healthBar.fillAmount = (float) health/maxHealth;
 
-		if (healthBar.fillAmount > 0.67) {
+		// ROBERT: 0.67 should be 0.67f, etc. make sure to correct the rest of your scripts
+		if (healthBar.fillAmount > 0.67f) {
 			healthBar.color = Color.cyan;
 		} else if (healthBar.fillAmount > 0.34 && healthBar.fillAmount <= 0.67) {
 			healthBar.color = Color.yellow;
@@ -130,6 +132,7 @@ public class gameManager : MonoBehaviour {
 		}
 
 		//replaces the last block slot
+		// ROBERT: you can use Mathf.RoundToInt() to do this easier
 		blockQueue[blockQueue.Length-1] = (int) Mathf.Round(Random.Range (0f, 1.0f));
 
 	}
