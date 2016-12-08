@@ -93,7 +93,7 @@ public class enemyMovement : MonoBehaviour {
         {
             transform.position = freezedPos;
             targetBlock.GetComponent<wallBlock>().blockHealth--;
-            yield return new WaitForSeconds(.15f);
+            yield return new WaitForSeconds(.75f);
         }
 
         chasing = true;

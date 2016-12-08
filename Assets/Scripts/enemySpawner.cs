@@ -10,7 +10,7 @@ public class enemySpawner : MonoBehaviour {
 
 	public int spawnerRotation;
 
-	private float randombuffer = Random.Range(0,5); 
+	private float randombuffer; 
 	private float initialSpawn; 
 
 	private float spawnTime; 
@@ -52,7 +52,7 @@ public class enemySpawner : MonoBehaviour {
 		if (spawnlimit == false && spawnCycle == true) {
 			// If the spawnTime > spawnBuffer, spawn the enemy and reset the spawnTime 
 			if (spawnTime > spawnBuffer + randombuffer) {
-				//randombuffer = Random.Range (0, 5);
+				randombuffer = Random.Range (0, 5);
 				Instantiate (Enemy, transform.position + transform.forward, transform.rotation);
 				enemySpawned += 1;
 				spawnTime = 0;
@@ -75,25 +75,11 @@ public class enemySpawner : MonoBehaviour {
 
 		// If addCap is true, add 5 to the cap of the enemies 
 		if (addCap == true) {
-			spawnCap += 2; 
+			spawnCap += 5; 
 			enemyKilled += 1;
 			addCap = false;
 			//Debug.Log ( "Spawn Cap" + spawnCap);
 		}
-
-		// If the spawnCap is higher, increase the spawning rate by reducing the spawnBuffer
-		if (enemyKilled % 10 == 0 && enemyKilled != 0) {
-			spawnBuffer -= 1; 
-		}
-
-		// The spawnBuffer cannot be lower than 3 seconds
-		if (spawnBuffer < 2) {
-			spawnBuffer = 2;
-		}
-
-		// If more than 70 enemies are killed, the random buffer changes from 0-5 seconds to 0-3 seconds
-		if (enemyKilled > 20) {
-			randombuffer = Random.Range (0, 3);
-		}
+			
 	}
 }
