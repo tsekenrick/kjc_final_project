@@ -6,7 +6,8 @@ public class MousePlayer : MonoBehaviour {
 	//These variables hold stuff related to block spawning
 	public Transform ammoBox;
 	public Transform barricade;
-	public int materials;
+    public Transform healthBox;
+    public int materials;
 	public GameObject reticule;
 	public bool canSpawn = true;
 
@@ -17,7 +18,7 @@ public class MousePlayer : MonoBehaviour {
 	public gameManager gm;
 
 	void Start(){
-		Physics.gravity = new Vector3 (0f, -35f, 0f);
+		Physics.gravity = new Vector3 (0f, -50f, 0f);
 		materials = 10;
 	}
 
@@ -56,10 +57,14 @@ public class MousePlayer : MonoBehaviour {
 				
 				Instantiate (barricade, reticule.transform.position + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
 			}
+            else
+            {
+                Instantiate(healthBox, reticule.transform.position + new Vector3(.5f, 8f, 0f), Quaternion.identity);
+            }
 
 
-			//canSpawn = false;
-			materials--;
+            //canSpawn = false;
+            materials--;
 			//changes display on the UI
 			gameManager.blockCount--;
 			gm.incrementBlockDisplay();

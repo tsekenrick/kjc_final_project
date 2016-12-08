@@ -270,34 +270,51 @@ public class keyboardMovement : MonoBehaviour
         canHurt = true;
     }
 
-	public void blockRaycast(int x){
-		
-		Ray leftRay;
-		if (x == 0) {
-			leftRay = new Ray (transform.position, Vector3.left);
-		} else if (x == 1) {
-			leftRay = new Ray (transform.position, Vector3.forward);
-		} else if (x == 2) {
-			leftRay = new Ray (transform.position, Vector3.right);
-		} else {
-			leftRay = new Ray (transform.position, Vector3.back);
-		}
-			
-		RaycastHit leftRayInfo;
-		if (Physics.Raycast(leftRay, out leftRayInfo, rayCastLength))
-		{
-				if (leftRayInfo.collider.tag == "Block")
-				{
-					if (leftRayInfo.collider.name == "BarracdeCube(Clone)") {
-					myAudioSource.PlayOneShot (blockBreaking [0]);
-						ammo += 1;
-					} else {
-					myAudioSource.PlayOneShot (blockBreaking [1]);
-						ammo += 3;
-					}
-					Destroy(leftRayInfo.collider.gameObject);
-				}
-			}
-			Debug.Log("thing hit left");
-		}
+    public void blockRaycast(int x)
+    {
+
+        Ray leftRay;
+        if (x == 0)
+        {
+            leftRay = new Ray(transform.position, Vector3.left);
+        }
+        else if (x == 1)
+        {
+            leftRay = new Ray(transform.position, Vector3.forward);
+        }
+        else if (x == 2)
+        {
+            leftRay = new Ray(transform.position, Vector3.right);
+        }
+        else {
+            leftRay = new Ray(transform.position, Vector3.back);
+        }
+
+        RaycastHit leftRayInfo;
+        if (Physics.Raycast(leftRay, out leftRayInfo, rayCastLength))
+        {
+            if (leftRayInfo.collider.tag == "Block")
+            {
+                if (leftRayInfo.collider.name == "BarracdeCube(Clone)")
+                {
+                    myAudioSource.PlayOneShot(blockBreaking[0]);
+                    ammo += 1;
+                }
+                else if (leftRayInfo.collider.name == "wallBlock(Clone)")
+                {
+                    myAudioSource.PlayOneShot(blockBreaking[1]);
+                    ammo += 3;
+                }
+                else if (leftRayInfo.collider.name == "healthBox(Clone)")
+                {
+                    if (gameManager.health < gameManager.maxHealth)
+                    {
+                        gameManager.health++;
+                    }
+                }
+                Destroy(leftRayInfo.collider.gameObject);
+            }
+        }
+        //Debug.Log("thing hit left");
+    }
 }
