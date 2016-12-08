@@ -40,7 +40,7 @@ public class gameManager : MonoBehaviour {
 	void Start () {
 		score = 0;
 		scoreMult = 1;
-
+        health = 3;
 		//populates the block queue ...
 		for (int i = 0; i < blockQueue.Length; i++) {
 			blockQueue [i] = (int) Mathf.Round(Random.Range (0f, 1.0f)); 
