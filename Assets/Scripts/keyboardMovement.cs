@@ -28,6 +28,8 @@ public class keyboardMovement : MonoBehaviour
 	//returns value used for camera adjustment || see: CameraController
 	public Vector3 adjustedPosition { get { return Vector3.Lerp(thisRigidbody.position, aimPoint, trackingCameraLead); } }
 
+	public AudioSource myAudioSource; 
+	public AudioClip[] blockBreaking;
 
     // Use this for initialization
     void Start()
@@ -67,7 +69,7 @@ public class keyboardMovement : MonoBehaviour
             transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
 
 			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift)) {
+			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey(KeyCode.Space)) {
 				blockRaycast (1);
 			}
         }
@@ -77,7 +79,7 @@ public class keyboardMovement : MonoBehaviour
             transform.position += Vector3.back * moveSpeed * Time.deltaTime;
 
 			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift)) {
+			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
 				blockRaycast (3);
 			}
         }
@@ -87,7 +89,7 @@ public class keyboardMovement : MonoBehaviour
             transform.position += Vector3.left * moveSpeed * Time.deltaTime;
 
 			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift)) {
+			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
 				blockRaycast (1);
 			}
         }
@@ -97,7 +99,7 @@ public class keyboardMovement : MonoBehaviour
             transform.position += Vector3.right * moveSpeed * Time.deltaTime;
 
 			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift)) {
+			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
 				blockRaycast (2);
 			}
         }
@@ -287,8 +289,10 @@ public class keyboardMovement : MonoBehaviour
 				if (leftRayInfo.collider.tag == "Block")
 				{
 					if (leftRayInfo.collider.name == "BarracdeCube(Clone)") {
+					myAudioSource.PlayOneShot (blockBreaking [0]);
 						ammo += 1;
 					} else {
+					myAudioSource.PlayOneShot (blockBreaking [1]);
 						ammo += 3;
 					}
 					Destroy(leftRayInfo.collider.gameObject);
