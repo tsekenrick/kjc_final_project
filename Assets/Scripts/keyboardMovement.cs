@@ -41,6 +41,8 @@ public class keyboardMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    		// ROBERT: what does this mouse stuff have to do with the keyboard player?
+		
 		// Create a ray and an imaginary infinite plane for aim tracking
 		var aimRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 		var aimPlane = new Plane(Vector3.up, thisRigidbody.position);
@@ -60,12 +62,19 @@ public class keyboardMovement : MonoBehaviour
             Destroy(gameObject);
         }
 
-
+	// ROBERT: you really shouldn't be doing transform.position+= for player character movement
+	// it might seems like it works, and then a Rigidbody automatically takes care of collision, but it's really unstable and very very bad practice
+	// remember, we usually use Rigidbody.AddForce() or CharacterController.Move() for character movement
+	
         //movement code
         if (Input.GetKey(KeyCode.W))
         {
             transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
 
+			// ROBERT: you should move this out of your Input.GetKey() block
+			// currently we have to hold down both W && press LShift, which you probably don't want
+			// instead, let the player press LeftShift whenever, and based on the player's last facing you call blockRaycast()
+			
 			//calls the blockRacast method for the given direction
 			if (Input.GetKey (KeyCode.LeftShift)) {
 				blockRaycast (1);
@@ -76,6 +85,8 @@ public class keyboardMovement : MonoBehaviour
         {
             transform.position += Vector3.back * moveSpeed * Time.deltaTime;
 
+			// ROBERT: see comment on line 74
+			
 			//calls the blockRacast method for the given direction
 			if (Input.GetKey (KeyCode.LeftShift)) {
 				blockRaycast (3);
@@ -86,6 +97,8 @@ public class keyboardMovement : MonoBehaviour
         {
             transform.position += Vector3.left * moveSpeed * Time.deltaTime;
 
+			// ROBERT: see comment on line 74
+			
 			//calls the blockRacast method for the given direction
 			if (Input.GetKey (KeyCode.LeftShift)) {
 				blockRaycast (1);
@@ -95,6 +108,8 @@ public class keyboardMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += Vector3.right * moveSpeed * Time.deltaTime;
+
+			// ROBERT: see comment on line 74
 
 			//calls the blockRacast method for the given direction
 			if (Input.GetKey (KeyCode.LeftShift)) {
@@ -288,7 +303,7 @@ public class keyboardMovement : MonoBehaviour
 				{
 					if (leftRayInfo.collider.name == "BarracdeCube(Clone)") {
 						ammo += 1;
-					} else {
+					} else { // ROBERT: I would give a lot more ammo btw
 						ammo += 3;
 					}
 					Destroy(leftRayInfo.collider.gameObject);
