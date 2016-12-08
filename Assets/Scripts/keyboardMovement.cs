@@ -53,16 +53,6 @@ public class keyboardMovement : MonoBehaviour
 		//Used for camera adjustment
 		aimPoint = aimRay.origin + (aimRay.direction * aimDistance);
 
-        /*if (canHurt == false)
-        {
-            iFrameDur -= Time.deltaTime;
-        }
-
-        if (iFrameDur <= 0)
-        {
-            canHurt = true;
-            iFrameDur = 1;
-        }*/
 
         if (gameManager.health <= 0)
         {
@@ -70,92 +60,46 @@ public class keyboardMovement : MonoBehaviour
             Destroy(gameObject);
         }
 
-        //raycast code and wall destruction code
-        Ray fwdRay = new Ray(transform.position, Vector3.forward);
-        RaycastHit fwdRayInfo;
-        if (Physics.Raycast(fwdRay, out fwdRayInfo, rayCastLength))
-        {
-            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.W))
-            {
-                if (fwdRayInfo.collider.tag == "Block")
-                {
-                    ammo += 3;
-                    Destroy(fwdRayInfo.collider.gameObject);
-                }
-            }
-            Debug.Log("thing hit fwd");
-        }
-
-        Ray backRay = new Ray(transform.position, Vector3.back);
-        RaycastHit backRayInfo;
-        if (Physics.Raycast(backRay, out backRayInfo, rayCastLength))
-        {            
-            if(Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.S))
-            {
-                if(backRayInfo.collider.tag == "Block")
-                {
-                    ammo += 3;
-                    Destroy(backRayInfo.collider.gameObject);
-                }
-            }
-            Debug.Log("thing hit back");
-        }
-
-        Ray leftRay = new Ray(transform.position, Vector3.left);
-        RaycastHit leftRayInfo;
-        if (Physics.Raycast(leftRay, out leftRayInfo, rayCastLength))
-        {
-            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.A))
-            {
-                if (leftRayInfo.collider.tag == "Block")
-                {
-                    ammo += 3;
-                    Destroy(leftRayInfo.collider.gameObject);
-                }
-            }
-            Debug.Log("thing hit left");
-        }
-
-        Ray rightRay = new Ray(transform.position, Vector3.right);
-        RaycastHit rightRayInfo;
-        if (Physics.Raycast(rightRay, out rightRayInfo, rayCastLength))
-        {
-            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.D))
-            {
-                if (rightRayInfo.collider.tag == "Block")
-                {
-                    ammo += 3;
-                    Destroy(rightRayInfo.collider.gameObject);
-                }
-            }
-            Debug.Log("thing hit right");
-        }
-
-        //code to draw raycasts
-        Debug.DrawRay(fwdRay.origin, fwdRay.direction * rayCastLength, Color.red);
-        Debug.DrawRay(backRay.origin, backRay.direction * rayCastLength, Color.red);
-        Debug.DrawRay(leftRay.origin, leftRay.direction * rayCastLength, Color.red);
-        Debug.DrawRay(rightRay.origin, rightRay.direction * rayCastLength, Color.red);
 
         //movement code
         if (Input.GetKey(KeyCode.W))
         {
             transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
+
+			//calls the blockRacast method for the given direction
+			if (Input.GetKey (KeyCode.LeftShift)) {
+				blockRaycast (1);
+			}
         }
 
         if (Input.GetKey(KeyCode.S))
         {
             transform.position += Vector3.back * moveSpeed * Time.deltaTime;
+
+			//calls the blockRacast method for the given direction
+			if (Input.GetKey (KeyCode.LeftShift)) {
+				blockRaycast (3);
+			}
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+
+			//calls the blockRacast method for the given direction
+			if (Input.GetKey (KeyCode.LeftShift)) {
+				blockRaycast (1);
+			}
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += Vector3.right * moveSpeed * Time.deltaTime;
+
+			//calls the blockRacast method for the given direction
+			if (Input.GetKey (KeyCode.LeftShift)) {
+				blockRaycast (2);
+			}
         }
 
         //code for shooting
@@ -323,4 +267,33 @@ public class keyboardMovement : MonoBehaviour
         GetComponent<Renderer>().material.color = originalColor;
         canHurt = true;
     }
+
+	public void blockRaycast(int x){
+		
+		Ray leftRay;
+		if (x == 0) {
+			leftRay = new Ray (transform.position, Vector3.left);
+		} else if (x == 1) {
+			leftRay = new Ray (transform.position, Vector3.forward);
+		} else if (x == 2) {
+			leftRay = new Ray (transform.position, Vector3.right);
+		} else {
+			leftRay = new Ray (transform.position, Vector3.back);
+		}
+			
+		RaycastHit leftRayInfo;
+		if (Physics.Raycast(leftRay, out leftRayInfo, rayCastLength))
+		{
+				if (leftRayInfo.collider.tag == "Block")
+				{
+					if (leftRayInfo.collider.name == "BarracdeCube(Clone)") {
+						ammo += 1;
+					} else {
+						ammo += 3;
+					}
+					Destroy(leftRayInfo.collider.gameObject);
+				}
+			}
+			Debug.Log("thing hit left");
+		}
 }

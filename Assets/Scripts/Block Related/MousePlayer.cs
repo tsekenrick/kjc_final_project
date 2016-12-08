@@ -49,23 +49,22 @@ public class MousePlayer : MonoBehaviour {
 		//Instantiate a copy on click
 		if (Input.GetMouseButtonUp (0) && canSpawn && materials >0) {
 
-			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
-			Instantiate (ammoBox, reticule.transform.position  + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
+			if (gm.blockQueue [0] == 0) {
+				//Instantiates a block, then stops multiple blocks from being instantiated in the same click
+				Instantiate (ammoBox, reticule.transform.position + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
+			} else if (gm.blockQueue [0] == 1) {
+				
+				Instantiate (barricade, reticule.transform.position + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
+			}
+
+
 			//canSpawn = false;
 			materials--;
 			//changes display on the UI
 			gameManager.blockCount--;
 			gm.incrementBlockDisplay();
 		}
-
-		if (Input.GetMouseButtonUp (1) && canSpawn && materials > 0) {
-
-			//Instantiates a block, then stops multiple blocks from being instantiated in the same click
-			Instantiate (barricade, reticule.transform.position  + new Vector3 (0.5f, 8f, 0f), Quaternion.identity);
-			materials--;
-			gameManager.blockCount--;
-			//canSpawn = false;
-		}
+			
 	}
 
 	void OnMouseUp(){
