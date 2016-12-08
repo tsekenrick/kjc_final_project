@@ -19,6 +19,7 @@ public class restartScript : MonoBehaviour {
 	void Update () {
 	if (Input.GetKeyDown(KeyCode.R))
         {
+			gameManager.health = gameManager.maxHealth;
 			score = 0;
 			enemySpawner.enemySpawned = 0;
             //gm.GetComponent<gameManager>().health = 3;
