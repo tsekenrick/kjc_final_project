@@ -12,7 +12,7 @@ public class keyboardMovement : MonoBehaviour
     public float attackSpeedTimer;
     public float attackSpeed;
 
-
+	public ParticleSystem muzzleFlash;
     public int ammo = 10;
     public bool canHurt = true;
     public float iFrameDur = 1;

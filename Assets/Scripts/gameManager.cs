@@ -98,11 +98,11 @@ public class gameManager : MonoBehaviour {
 		//caclulates the health bar percentage/color
 		healthBar.fillAmount = (float) health/maxHealth;
 
-		if (healthBar.fillAmount > 0.67) {
+		if (healthBar.fillAmount > 0.67f) {
 			healthBar.color = Color.cyan;
-		} else if (healthBar.fillAmount > 0.34 && healthBar.fillAmount <= 0.67) {
+		} else if (healthBar.fillAmount > 0.34f && healthBar.fillAmount <= 0.67f) {
 			healthBar.color = Color.yellow;
-		}else if (healthBar.fillAmount <= 0.34) {
+		}else if (healthBar.fillAmount <= 0.34f) {
 			healthBar.color = Color.magenta;
 		} //end health color caluclation
 
@@ -130,7 +130,7 @@ public class gameManager : MonoBehaviour {
 		}
 
 		//replaces the last block slot
-		blockQueue[blockQueue.Length-1] = (int) Mathf.Round(Random.Range (0f, 1.0f));
+		blockQueue[blockQueue.Length-1] = Mathf.RoundToInt(Random.Range (0f, 1.0f));
 
 	}
 }
