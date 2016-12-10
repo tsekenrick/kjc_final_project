@@ -11,6 +11,9 @@ public class keyboardMovement : MonoBehaviour
     public bool canFire;
     public float attackSpeedTimer;
     public float attackSpeed;
+
+
+	public ParticleSystem muzzleFlash;
     public float friction;
 
     public int ammo = 10;
@@ -31,6 +34,8 @@ public class keyboardMovement : MonoBehaviour
 
 	public AudioSource myAudioSource; 
 	public AudioClip[] blockBreaking;
+
+	public ScreenFader fader;
 
     // Use this for initialization
     void Start()
@@ -59,7 +64,10 @@ public class keyboardMovement : MonoBehaviour
 
         if (gameManager.health <= 0)
         {
-            SceneManager.LoadScene(1);
+			fader.gameObject.SetActive (true);
+			fader.FadeOut (2);
+
+           // SceneManager.LoadScene(2);
             Destroy(gameObject);
         }
 
@@ -150,6 +158,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += new Vector3(1, 0, -1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, -1) * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 135f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -162,6 +173,9 @@ public class keyboardMovement : MonoBehaviour
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += new Vector3(-1, 0, -1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, -1) * bulletSpeed, ForceMode.Impulse);
+
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 225f, 0f));
 
             if (canFire)
             {
@@ -176,6 +190,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += new Vector3(-1, 0, 1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, 1) * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 315f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -189,6 +206,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += new Vector3(-1, 0, 1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, 1) * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 45f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -201,6 +221,9 @@ public class keyboardMovement : MonoBehaviour
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.forward * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.forward * bulletSpeed, ForceMode.Impulse);
+
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 0f, 0f));
 
             if (canFire)
             {
@@ -217,6 +240,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += Vector3.back * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.back * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 180f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -230,6 +256,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += Vector3.left * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.left * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 270f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -242,6 +271,9 @@ public class keyboardMovement : MonoBehaviour
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.right * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.right * bulletSpeed, ForceMode.Impulse);
+
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 90f, 0f));
 
             if (canFire)
             {
