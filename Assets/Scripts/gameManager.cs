@@ -46,12 +46,12 @@ public class gameManager : MonoBehaviour {
 		//populates the block queue ...
 		for (int i = 0; i < blockQueue.Length; i++) {
             float blockInt = Random.value;
-            if (blockInt < .2f)
+            if (blockInt < .45f)
             {
                 blockType = 0;
             }
 
-            else if (blockInt > .2f && blockInt < .4f)
+            else if (blockInt > .45f && blockInt < .9f)
             {
                 blockType = 1;
             }
@@ -157,12 +157,12 @@ public class gameManager : MonoBehaviour {
         //replaces the last block slot
         //blockQueue[blockQueue.Length-1] = (int) Mathf.Round(Random.Range (0f, 1.0f));
         float blockInt = Random.value;
-        if (blockInt < .2f)
+        if (blockInt < .45f)
         {
             blockType = 0;
         }
 
-        else if (blockInt > .2f && blockInt < .4f)
+        else if (blockInt > .45f && blockInt < .9f)
         {
             blockType = 1;
         }

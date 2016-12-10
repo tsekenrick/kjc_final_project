@@ -11,11 +11,12 @@ public class keyboardMovement : MonoBehaviour
     public bool canFire;
     public float attackSpeedTimer;
     public float attackSpeed;
-
+    public float friction;
 
     public int ammo = 10;
     public bool canHurt = true;
     public float iFrameDur = 1;
+    public int facing;
 
 	//These values are used specifically for the camera motion
 	public Rigidbody thisRigidbody;
@@ -62,12 +63,15 @@ public class keyboardMovement : MonoBehaviour
             Destroy(gameObject);
         }
 
+        thisRigidbody.AddForce(friction * thisRigidbody.velocity.normalized * thisRigidbody.velocity.sqrMagnitude); //applies homemade friction
 
         //movement code
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
-
+            //transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
+            thisRigidbody.AddForce(Vector3.forward * moveSpeed);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            facing = 1;
 			//calls the blockRacast method for the given direction
 			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey(KeyCode.Space)) {
 				blockRaycast (1);
@@ -76,32 +80,65 @@ public class keyboardMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position += Vector3.back * moveSpeed * Time.deltaTime;
-
-			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
+            //transform.position += Vector3.back * moveSpeed * Time.deltaTime;
+            thisRigidbody.AddForce(Vector3.back * moveSpeed);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            facing = 3;
+            //calls the blockRacast method for the given direction
+            if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
 				blockRaycast (3);
 			}
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position += Vector3.left * moveSpeed * Time.deltaTime;
-
-			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
-				blockRaycast (1);
+            //transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+            thisRigidbody.AddForce(Vector3.left * moveSpeed);
+            transform.rotation = Quaternion.Euler(0, 270, 0);
+            facing = 0;
+            //calls the blockRacast method for the given direction
+            if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
+				blockRaycast (0);
 			}
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += Vector3.right * moveSpeed * Time.deltaTime;
-
-			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
+            //transform.position += Vector3.right * moveSpeed * Time.deltaTime;
+            thisRigidbody.AddForce(Vector3.right * moveSpeed);
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+            facing = 2;
+            //calls the blockRacast method for the given direction
+            if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
 				blockRaycast (2);
 			}
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift))
+        {
+
+            if (facing == 0)
+            {
+                Debug.Log("Called");
+                blockRaycast(0);
+            }
+
+            if (facing == 1)
+            {
+                blockRaycast(1);
+            }
+
+            if (facing == 2)
+            {
+                Debug.Log("Called");
+                blockRaycast(2);
+            }
+
+            if (facing == 3)
+            {
+                Debug.Log("Called");
+                blockRaycast(3);
+            }
         }
 
         //code for shooting
@@ -260,13 +297,18 @@ public class keyboardMovement : MonoBehaviour
     public IEnumerator hurtFlash()
     {
         Color originalColor = GetComponent<Renderer>().material.color;
-        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.33f);
         GetComponent<Renderer>().material.color = originalColor;
         yield return new WaitForSeconds(.33f);
-        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.33f);
         GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = Color.clear;
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.33f);
         canHurt = true;
     }
 

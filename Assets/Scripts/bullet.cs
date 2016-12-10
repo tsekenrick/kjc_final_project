@@ -28,7 +28,8 @@ public class bullet : MonoBehaviour {
 
         if (collision.gameObject.tag == "Enemy")
         {
-            collision.GetComponent<enemyMovement>().destroy();
+            collision.GetComponent<enemyMovement>().enemyHurt();
+            Destroy(gameObject);
             //Destroy(collision.GetComponent<GameObject>());
             
         }

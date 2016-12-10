@@ -11,6 +11,8 @@ public class MousePlayer : MonoBehaviour {
 	public GameObject reticule;
 	public bool canSpawn = true;
 
+    public bool spaceOccupied = false;
+
 	//Allows reticule to ignore certain layers and go behind them
 	public LayerMask raycastLayerMask;
 
@@ -25,6 +27,12 @@ public class MousePlayer : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+        if (spaceOccupied)
+        {
+            canSpawn = false;
+        }
+
 		//Step 1: define the "ray"
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
@@ -72,9 +80,12 @@ public class MousePlayer : MonoBehaviour {
 			
 	}
 
-	void OnMouseUp(){
-		canSpawn = true;
+	void OnMouseUp()
+    {
+        canSpawn = true;
+
 	}
+
 
 
 }
