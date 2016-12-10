@@ -7,6 +7,10 @@ public class genericMusicScript : MonoBehaviour {
 	//This will hold the audiosource the script is attached to
 	public AudioSource music;
 
+	//Changing the version number for 0 = SFX, 1 = Music track
+	//Set in the inspector
+	public int version = 0;
+
 	// Use this for initialization
 	void Start () {
 		music = this.GetComponent<AudioSource> ();
@@ -15,7 +19,11 @@ public class genericMusicScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		//"musicVolume" is a static variable in the menu handler
-		music.volume = MenuHandler.musicVolume;
+		if (version == 1) {
+			//"musicVolume" is a static variable in the menu handler
+			music.volume = MenuHandler.musicVolume;
+		} else {
+			music.volume = MenuHandler.sfxVolume;
+		}
 	}
 }
