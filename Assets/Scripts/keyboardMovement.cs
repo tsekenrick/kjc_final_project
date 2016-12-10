@@ -12,10 +12,14 @@ public class keyboardMovement : MonoBehaviour
     public float attackSpeedTimer;
     public float attackSpeed;
 
+
 	public ParticleSystem muzzleFlash;
+    public float friction;
+
     public int ammo = 10;
     public bool canHurt = true;
     public float iFrameDur = 1;
+    public int facing;
 
 	//These values are used specifically for the camera motion
 	public Rigidbody thisRigidbody;
@@ -28,6 +32,10 @@ public class keyboardMovement : MonoBehaviour
 	//returns value used for camera adjustment || see: CameraController
 	public Vector3 adjustedPosition { get { return Vector3.Lerp(thisRigidbody.position, aimPoint, trackingCameraLead); } }
 
+	public AudioSource myAudioSource; 
+	public AudioClip[] blockBreaking;
+
+	public ScreenFader fader;
 
     // Use this for initialization
     void Start()
@@ -56,50 +64,89 @@ public class keyboardMovement : MonoBehaviour
 
         if (gameManager.health <= 0)
         {
-            SceneManager.LoadScene(1);
+			fader.gameObject.SetActive (true);
+			fader.FadeOut (2);
+
+           // SceneManager.LoadScene(2);
             Destroy(gameObject);
         }
 
+        thisRigidbody.AddForce(friction * thisRigidbody.velocity.normalized * thisRigidbody.velocity.sqrMagnitude); //applies homemade friction
 
         //movement code
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
-
+            //transform.position += Vector3.forward * moveSpeed * Time.deltaTime;
+            thisRigidbody.AddForce(Vector3.forward * moveSpeed);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            facing = 1;
 			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift)) {
+			if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey(KeyCode.Space)) {
 				blockRaycast (1);
 			}
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position += Vector3.back * moveSpeed * Time.deltaTime;
-
-			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift)) {
+            //transform.position += Vector3.back * moveSpeed * Time.deltaTime;
+            thisRigidbody.AddForce(Vector3.back * moveSpeed);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            facing = 3;
+            //calls the blockRacast method for the given direction
+            if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
 				blockRaycast (3);
 			}
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position += Vector3.left * moveSpeed * Time.deltaTime;
-
-			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift)) {
-				blockRaycast (1);
+            //transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+            thisRigidbody.AddForce(Vector3.left * moveSpeed);
+            transform.rotation = Quaternion.Euler(0, 270, 0);
+            facing = 0;
+            //calls the blockRacast method for the given direction
+            if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
+				blockRaycast (0);
 			}
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position += Vector3.right * moveSpeed * Time.deltaTime;
-
-			//calls the blockRacast method for the given direction
-			if (Input.GetKey (KeyCode.LeftShift)) {
+            //transform.position += Vector3.right * moveSpeed * Time.deltaTime;
+            thisRigidbody.AddForce(Vector3.right * moveSpeed);
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+            facing = 2;
+            //calls the blockRacast method for the given direction
+            if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.Space)) {
 				blockRaycast (2);
 			}
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift))
+        {
+
+            if (facing == 0)
+            {
+                Debug.Log("Called");
+                blockRaycast(0);
+            }
+
+            if (facing == 1)
+            {
+                blockRaycast(1);
+            }
+
+            if (facing == 2)
+            {
+                Debug.Log("Called");
+                blockRaycast(2);
+            }
+
+            if (facing == 3)
+            {
+                Debug.Log("Called");
+                blockRaycast(3);
+            }
         }
 
         //code for shooting
@@ -110,6 +157,9 @@ public class keyboardMovement : MonoBehaviour
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += new Vector3(1, 0, -1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, -1) * bulletSpeed, ForceMode.Impulse);
+
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 135f, 0f));
 
             if (canFire)
             {
@@ -124,6 +174,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += new Vector3(-1, 0, -1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, -1) * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 225f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -136,6 +189,9 @@ public class keyboardMovement : MonoBehaviour
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += new Vector3(-1, 0, 1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(-1, 0, 1) * bulletSpeed, ForceMode.Impulse);
+
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 315f, 0f));
 
             if (canFire)
             {
@@ -150,6 +206,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += new Vector3(-1, 0, 1) * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(new Vector3(1, 0, 1) * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 45f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -162,6 +221,9 @@ public class keyboardMovement : MonoBehaviour
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.forward * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.forward * bulletSpeed, ForceMode.Impulse);
+
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 0f, 0f));
 
             if (canFire)
             {
@@ -178,6 +240,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += Vector3.back * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.back * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 180f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -191,6 +256,9 @@ public class keyboardMovement : MonoBehaviour
             newBullet.transform.position += Vector3.left * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.left * bulletSpeed, ForceMode.Impulse);
 
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 270f, 0f));
+
             if (canFire)
             {
                 canFire = false;
@@ -203,6 +271,9 @@ public class keyboardMovement : MonoBehaviour
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += Vector3.right * bulletSpeed * Time.deltaTime;
             newBullet.GetComponent<Rigidbody>().AddForce(Vector3.right * bulletSpeed, ForceMode.Impulse);
+
+			//Muzzle flash on firing
+			Instantiate (muzzleFlash, this.transform.position, Quaternion.Euler (0f, 90f, 0f));
 
             if (canFire)
             {
@@ -258,42 +329,66 @@ public class keyboardMovement : MonoBehaviour
     public IEnumerator hurtFlash()
     {
         Color originalColor = GetComponent<Renderer>().material.color;
-        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.33f);
         GetComponent<Renderer>().material.color = originalColor;
         yield return new WaitForSeconds(.33f);
-        GetComponent<Renderer>().material.color = new Color(0, 0, 0, 0);
+        GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.33f);
         GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = Color.clear;
+        yield return new WaitForSeconds(.33f);
+        GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.33f);
         canHurt = true;
     }
 
-	public void blockRaycast(int x){
-		
-		Ray leftRay;
-		if (x == 0) {
-			leftRay = new Ray (transform.position, Vector3.left);
-		} else if (x == 1) {
-			leftRay = new Ray (transform.position, Vector3.forward);
-		} else if (x == 2) {
-			leftRay = new Ray (transform.position, Vector3.right);
-		} else {
-			leftRay = new Ray (transform.position, Vector3.back);
-		}
-			
-		RaycastHit leftRayInfo;
-		if (Physics.Raycast(leftRay, out leftRayInfo, rayCastLength))
-		{
-				if (leftRayInfo.collider.tag == "Block")
-				{
-					if (leftRayInfo.collider.name == "BarracdeCube(Clone)") {
-						ammo += 1;
-					} else {
-						ammo += 3;
-					}
-					Destroy(leftRayInfo.collider.gameObject);
-				}
-			}
-			Debug.Log("thing hit left");
-		}
+    public void blockRaycast(int x)
+    {
+
+        Ray leftRay;
+        if (x == 0)
+        {
+            leftRay = new Ray(transform.position, Vector3.left);
+        }
+        else if (x == 1)
+        {
+            leftRay = new Ray(transform.position, Vector3.forward);
+        }
+        else if (x == 2)
+        {
+            leftRay = new Ray(transform.position, Vector3.right);
+        }
+        else {
+            leftRay = new Ray(transform.position, Vector3.back);
+        }
+
+        RaycastHit leftRayInfo;
+        if (Physics.Raycast(leftRay, out leftRayInfo, rayCastLength))
+        {
+            if (leftRayInfo.collider.tag == "Block")
+            {
+                if (leftRayInfo.collider.name == "BarracdeCube(Clone)")
+                {
+                    myAudioSource.PlayOneShot(blockBreaking[0]);
+                    ammo += 1;
+                }
+                else if (leftRayInfo.collider.name == "wallBlock(Clone)")
+                {
+                    myAudioSource.PlayOneShot(blockBreaking[1]);
+                    ammo += 3;
+                }
+                else if (leftRayInfo.collider.name == "healthBox(Clone)")
+                {
+                    if (gameManager.health < gameManager.maxHealth)
+                    {
+                        gameManager.health++;
+                    }
+                }
+                Destroy(leftRayInfo.collider.gameObject);
+            }
+        }
+        //Debug.Log("thing hit left");
+    }
 }

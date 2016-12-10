@@ -29,11 +29,13 @@ public class gameManager : MonoBehaviour {
 	public static int blockCount = 10;
 	public Text blockDisplay; //Shows how many blocks the mouse player has left to place
 	public int[] blockQueue = new int[4]; //Holds which blocks the player is allowed to place
-	public Image[] blockIcons = new Image[4]; //Shows which blocks are in cue
+    public static int blockType = 0; //determines what block type spawns next
+    public Image[] blockIcons = new Image[4]; //Shows which blocks are in cue
 	public Sprite ammoBlock;
 	public Sprite barrBlock;
+    public Sprite healthBlock;
 
-	public MousePlayer mp;
+    public MousePlayer mp;
 	public keyboardMovement kp;
 
 
@@ -43,8 +45,24 @@ public class gameManager : MonoBehaviour {
 
 		//populates the block queue ...
 		for (int i = 0; i < blockQueue.Length; i++) {
-			blockQueue [i] = (int) Mathf.Round(Random.Range (0f, 1.0f)); 
-		}
+            float blockInt = Random.value;
+            if (blockInt < .45f)
+            {
+                blockType = 0;
+            }
+
+            else if (blockInt > .45f && blockInt < .9f)
+            {
+                blockType = 1;
+            }
+
+            else
+            {
+                blockType = 2;
+            }
+
+            blockQueue[i] = blockType;
+        }
 			
 	}
 	
@@ -62,12 +80,19 @@ public class gameManager : MonoBehaviour {
 
 		//...Then displays it in the UI
 		for (int i = 0; i < blockIcons.Length; i++) {
-			if (blockQueue [i] == 0) {
-				blockIcons [i].sprite = ammoBlock; //0 = Ammo block
-			} else {
-				blockIcons [i].sprite = barrBlock; //1 = Barricade Block
-			}
-		}
+            if (blockQueue[i] == 0)
+            {
+                blockIcons[i].sprite = ammoBlock; //0 = Ammo block
+            }
+            else if (blockQueue[i] == 1)
+            {
+                blockIcons[i].sprite = barrBlock; //1 = Barricade Block
+            }
+            else
+            {
+                blockIcons[i].sprite = healthBlock; //2 = health block
+            }
+        }
 
 		//Resets everything if "R" is pressed
 		if (Input.GetKeyDown (KeyCode.R)) {
@@ -98,11 +123,11 @@ public class gameManager : MonoBehaviour {
 		//caclulates the health bar percentage/color
 		healthBar.fillAmount = (float) health/maxHealth;
 
-		if (healthBar.fillAmount > 0.67f) {
+		if (healthBar.fillAmount > 0.67) {
 			healthBar.color = Color.cyan;
-		} else if (healthBar.fillAmount > 0.34f && healthBar.fillAmount <= 0.67f) {
+		} else if (healthBar.fillAmount > 0.34 && healthBar.fillAmount <= 0.67) {
 			healthBar.color = Color.yellow;
-		}else if (healthBar.fillAmount <= 0.34f) {
+		}else if (healthBar.fillAmount <= 0.34) {
 			healthBar.color = Color.magenta;
 		} //end health color caluclation
 
@@ -129,8 +154,25 @@ public class gameManager : MonoBehaviour {
 			blockQueue [i - 1] = blockQueue [i];
 		}
 
-		//replaces the last block slot
-		blockQueue[blockQueue.Length-1] = Mathf.RoundToInt(Random.Range (0f, 1.0f));
+        //replaces the last block slot
+        //blockQueue[blockQueue.Length-1] = (int) Mathf.Round(Random.Range (0f, 1.0f));
+        float blockInt = Random.value;
+        if (blockInt < .45f)
+        {
+            blockType = 0;
+        }
 
-	}
+        else if (blockInt > .45f && blockInt < .9f)
+        {
+            blockType = 1;
+        }
+
+        else
+        {
+            blockType = 2;
+        }
+
+        blockQueue[blockQueue.Length - 1] = blockType;
+
+    }
 }

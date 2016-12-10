@@ -59,7 +59,7 @@ public class ScreenFader : MonoBehaviour {
 		}
 
 		//Loads level after fade out
-		if (fadingOut && currentAlpha >= 2.5) {
+		if (fadingOut && currentAlpha >= 2) {
 			Application.LoadLevel (sceneTransitionNumber);
 		}
 	}
