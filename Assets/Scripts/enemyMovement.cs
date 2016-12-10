@@ -9,11 +9,10 @@ public class enemyMovement : MonoBehaviour {
 
 	public gameManager gm;
 
-	public int enemySpeed;
-
+	public float enemySpeed;
+    public int enemyHealth;
     public bool chasing;
     public GameObject targetBlock;
-
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +26,11 @@ public class enemyMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+        if (enemyHealth <= 0)
+        {
+            destroy();
+        }
+
 		if (player == null || !player.gameObject.activeInHierarchy) {
 			return;
 		}
@@ -41,7 +45,8 @@ public class enemyMovement : MonoBehaviour {
 
         if (chasing)
         {
-            transform.position = Vector3.MoveTowards(transform.position, playerPos, enemySpeed * Time.deltaTime);
+            rb.AddForce(directionToPlayer.normalized * enemySpeed);
+            //transform.position = Vector3.MoveTowards(transform.position, playerPos, enemySpeed * Time.deltaTime);
         }
 
 		Ray enemyRay = new Ray (this.transform.position, directionToPlayer); 
@@ -80,22 +85,67 @@ public class enemyMovement : MonoBehaviour {
 		mousePlayer.GetComponent<MousePlayer> ().materials += 2;
 		enemySpawner.enemySpawned--; 
 		enemySpawner.enemyKilled++;
-		Destroy (gameObject);
 		gm.score += 10 * gm.scoreMult;
 		gm.enemiesKilled++;
         Destroy(gameObject);
     }
 
+    public void killedByBlock()
+    {
+        enemySpawner.enemySpawned--;
+        enemySpawner.enemyKilled++;
+        gm.score += 10 * gm.scoreMult;
+        gm.enemiesKilled++;
+        Destroy(gameObject);
+    }
+
+    public void enemyHurt()
+    {
+        enemyHealth--;
+        StartCoroutine(hurtFlash());
+    }
+
+    public IEnumerator hurtFlash()
+    {
+        
+        Color originalColor = GetComponent<Renderer>().material.color;
+        //GetComponent<Renderer>().enabled = false;
+        GetComponent<Renderer>().material.color = Color.clear;
+        yield return new WaitForSeconds(.1f);
+        //GetComponent<Renderer>().enabled = true;
+        GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.1f);
+        //GetComponent<Renderer>().enabled = false;
+        GetComponent<Renderer>().material.color = Color.clear;
+        yield return new WaitForSeconds(.1f);
+        //GetComponent<Renderer>().enabled = true;
+        GetComponent<Renderer>().material.color = originalColor;
+    }
+
     IEnumerator attackBlock()
     {
+        Color originalColor = GetComponent<Renderer>().material.color;
         Vector3 freezedPos = transform.position;
         chasing = false;
         while (targetBlock != null)
         {
             transform.position = freezedPos;
-			targetBlock.GetComponent<wallBlock> ().blockHealth--;
+            if (GetComponent<Renderer>().material.color == originalColor)
+            {
+                GetComponent<Renderer>().material.color = Color.red;
+            }
+            else
+            {
+                GetComponent<Renderer>().material.color = originalColor;
+            }
+            targetBlock.GetComponent<wallBlock>().blockHealth--;
             yield return new WaitForSeconds(.15f);
         }
+        if (GetComponent<Renderer>().material.color != originalColor)
+        {
+            GetComponent<Renderer>().material.color = originalColor;
+        }
+        
         chasing = true;
     }
 }
