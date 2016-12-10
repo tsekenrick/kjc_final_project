@@ -14,6 +14,7 @@ public class enemyMovement : MonoBehaviour {
     public bool chasing;
     public GameObject targetBlock;
 
+
 	// Use this for initialization
 	void Start () {
         chasing = true;
@@ -92,10 +93,9 @@ public class enemyMovement : MonoBehaviour {
         while (targetBlock != null)
         {
             transform.position = freezedPos;
-            targetBlock.GetComponent<wallBlock>().blockHealth--;
+			targetBlock.GetComponent<wallBlock> ().blockHealth--;
             yield return new WaitForSeconds(.15f);
         }
-
         chasing = true;
     }
 }
