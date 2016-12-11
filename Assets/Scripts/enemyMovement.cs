@@ -46,7 +46,8 @@ public class enemyMovement : MonoBehaviour {
         if (chasing)
         {
             rb.AddForce(directionToPlayer.normalized * enemySpeed);
-            //transform.position = Vector3.MoveTowards(transform.position, playerPos, enemySpeed * Time.deltaTime);
+            //transform.position = Vector3.MoveTowards(transform.position, playerPos, enemySpeed * Time.deltaTime);'
+			this.transform.rotation = Quaternion.Euler(transform.rotation.x, directionToPlayer.y, transform.rotation.z);
         }
 
 		Ray enemyRay = new Ray (this.transform.position, directionToPlayer); 
