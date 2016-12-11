@@ -35,6 +35,12 @@ public class keyboardMovement : MonoBehaviour
 	public AudioSource myAudioSource; 
 	public AudioClip[] blockBreaking;
 
+	//Stuff used for sounds
+	public AudioSource sfx1;
+	public AudioSource sfx2;
+	public AudioClip firing;
+
+
 	public ScreenFader fader;
 
     // Use this for initialization
@@ -150,9 +156,9 @@ public class keyboardMovement : MonoBehaviour
         }
 
         //code for shooting
-        if (Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.RightArrow) && canFire)
+		if (Input.GetKey (KeyCode.DownArrow) && Input.GetKey (KeyCode.RightArrow) && canFire)
         {
-            ammo -= 1;
+
             //Debug.Log("diag conditions met");
             GameObject newBullet = (GameObject)Instantiate(bullet, transform.position, Quaternion.identity);
             newBullet.transform.position += new Vector3(1, 0, -1) * bulletSpeed * Time.deltaTime;
@@ -163,6 +169,12 @@ public class keyboardMovement : MonoBehaviour
 
             if (canFire)
             {
+
+				//Plays the shooting sounds
+				sfx1.Stop ();
+				sfx1.clip = firing;
+				sfx1.Play();
+
                 canFire = false;
             }
         }
@@ -179,6 +191,12 @@ public class keyboardMovement : MonoBehaviour
 
             if (canFire)
             {
+
+				//Plays the shooting sounds
+				sfx1.Stop ();
+				sfx1.clip = firing;
+				sfx1.Play();
+
                 canFire = false;
             }
         }
@@ -195,6 +213,12 @@ public class keyboardMovement : MonoBehaviour
 
             if (canFire)
             {
+
+				//Plays the shooting sounds
+				sfx1.Stop ();
+				sfx1.clip = firing;
+				sfx1.Play();
+
                 canFire = false;
             }
         }
@@ -211,6 +235,12 @@ public class keyboardMovement : MonoBehaviour
 
             if (canFire)
             {
+
+				//Plays the shooting sounds
+				sfx1.Stop ();
+				sfx1.clip = firing;
+				sfx1.Play();
+
                 canFire = false;
             }
         }
@@ -227,6 +257,12 @@ public class keyboardMovement : MonoBehaviour
 
             if (canFire)
             {
+
+				//Plays the shooting sounds
+				sfx1.Stop ();
+				sfx1.clip = firing;
+				sfx1.Play();
+
                 canFire = false;
             }
             
@@ -245,6 +281,12 @@ public class keyboardMovement : MonoBehaviour
 
             if (canFire)
             {
+
+				//Plays the shooting sounds
+				sfx1.Stop ();
+				sfx1.clip = firing;
+				sfx1.Play();
+
                 canFire = false;
             }
         }
@@ -261,6 +303,12 @@ public class keyboardMovement : MonoBehaviour
 
             if (canFire)
             {
+
+				//Plays the shooting sounds
+				sfx1.Stop ();
+				sfx1.clip = firing;
+				sfx1.Play();
+
                 canFire = false;
             }
         }
@@ -277,6 +325,12 @@ public class keyboardMovement : MonoBehaviour
 
             if (canFire)
             {
+
+				//Plays the shooting sounds
+				sfx1.Stop ();
+				sfx1.clip = firing;
+				sfx1.Play();
+
                 canFire = false;
             }
         }

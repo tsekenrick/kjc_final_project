@@ -34,8 +34,17 @@ public class MenuHandler : MonoBehaviour {
 	public GameObject player2Page2;
 	public bool pageToggle = true;
 
+	//Audio related objects
+	public AudioSource sfx1;
+	public AudioSource sfx2;
+	public AudioClip mouseOver;
+	public AudioClip mouseDown;
+
 	//Disables options and instructions, enables the screen fading
 	void Start(){
+		musicVolume = 1;
+		sfxVolume = 1;
+
 		screenFader.SetActive (true);
 		optionsMenu.SetActive (false);
 		instructionsMenu.SetActive (false);
@@ -56,10 +65,20 @@ public class MenuHandler : MonoBehaviour {
 	//This function will be called by event triggers
 	//on mouseOver the buttons will change button size
 	public void onMouseOver(GameObject x){
+		//Plays sound of putting mouse over
+		sfx1.Stop ();
+		sfx1.clip = mouseOver;
+		sfx1.Play ();
 		
 		//Enlarges the button; Changes its appearance
 		x.GetComponent <RectTransform>().offsetMax += new Vector2(150,0);
 		x.GetComponent <Image>().sprite = buttonMouseOver;
+	}
+
+	public void onMouseDown(){
+		sfx2.Stop ();
+		sfx2.clip = mouseDown;
+		sfx2.Play ();
 	}
 
 
