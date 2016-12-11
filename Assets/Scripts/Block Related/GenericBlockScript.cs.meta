@@ -1,10 +1,15 @@
 fileFormatVersion: 2
 guid: 79ffa28e83f85a24b8240eebc5f1cb3d
-timeCreated: 1479418238
+timeCreated: 1481417095
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - crushedEnemy: {instanceID: 0}
+  - sfx2: {instanceID: 0}
+  - blockDropping: {fileID: 8300000, guid: 3bd6a854e9a85d848b6eb997df0b948e, type: 3}
+  - blockImpact: {fileID: 8300000, guid: cbee1a5fcc912d346a9fd196a4c491df, type: 3}
+  - enemyImpact: {fileID: 8300000, guid: 515b5f0d4f7c32a428556da4d9e0be31, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

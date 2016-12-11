@@ -25,6 +25,12 @@ public class ScreenFader : MonoBehaviour {
 	//the scene the game is transitioning to
 	private int sceneTransitionNumber;
 
+	//Audio related
+	public AudioSource music;
+	public AudioSource sfx1;
+	public AudioClip fadeOutSound;
+	public AudioClip fadeInSound;
+
 	//Grabs the image
 	void Awake(){
 		image = this.GetComponent <Image> ();
@@ -67,12 +73,22 @@ public class ScreenFader : MonoBehaviour {
 	//These methods are called by GameObjects in the scene in
 	//order to initiate a fade
 	public void FadeIn(){
+		//plays the sound
+		sfx1.clip = fadeInSound;
+		sfx1.Play ();
+
 		fadingOut = false;
 		fadingToBlack = false;
 		fadingIn = true;
 	}
 	public void FadeOut(int x){
-		fadeSpeed = 0.5f;
+		//Plays the sound for fading
+		sfx1.Stop ();
+		sfx1.clip = fadeOutSound;
+		sfx1.Play ();
+		music.Stop (); //Stops the music
+
+		//Starts the actual fade
 		image.sprite = startScreen;
 		fadingIn = false;
 		fadingOut = true;
