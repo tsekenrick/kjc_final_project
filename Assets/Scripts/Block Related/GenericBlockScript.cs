@@ -31,32 +31,38 @@ public class GenericBlockScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
 
-			sfx2.clip = blockImpact;
-			sfx2.Stop ();
-			sfx2.Play ();
-			particleTrail.Stop ();
+    }
 
+    void OnCollisionEnter(Collision col)
+    {
+
+        if (col.gameObject.tag == "Player" && onGround == false)
+        {
+            Destroy(gameObject);
+        }
+
+        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block")
+        {
+            //Play impact sound
+            sfx2.Stop();
+            sfx2.clip = blockImpact;
+            sfx2.Play();
+
+            particleTrail.Stop();
             onGround = true;
             cam.ShakeCamera(1, 10, 1.5f, 1.5f, 1.5f);
         }
 
         if (col.gameObject.tag == "Enemy" && onGround == false)
         {
-			//Play impact sound
-			sfx2.Stop ();
-			sfx2.clip = enemyImpact;
-			sfx2.Play ();
+            //Play impact sound
+            sfx2.Stop();
+            sfx2.clip = enemyImpact;
+            sfx2.Play();
 
             crushedEnemy = col.gameObject;
             crushedEnemy.GetComponent<enemyMovement>().killedByBlock();
-        }
-
-        if (col.gameObject.tag == "Player" && onGround == false)
-        {
-            Destroy(gameObject);
         }
     }
 
