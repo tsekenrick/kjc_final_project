@@ -50,16 +50,19 @@ public class GenericBlockScript : MonoBehaviour {
             sfx2.Play();
 
             particleTrail.Stop();
+
             onGround = true;
             cam.ShakeCamera(1, 10, 1.5f, 1.5f, 1.5f);
         }
 
         if (col.gameObject.tag == "Enemy" && onGround == false)
         {
+
             //Play impact sound
             sfx2.Stop();
             sfx2.clip = enemyImpact;
             sfx2.Play();
+
 
             crushedEnemy = col.gameObject;
             crushedEnemy.GetComponent<enemyMovement>().killedByBlock();
