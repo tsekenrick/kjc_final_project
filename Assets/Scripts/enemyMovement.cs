@@ -14,6 +14,9 @@ public class enemyMovement : MonoBehaviour {
     public bool chasing;
     public GameObject targetBlock;
 
+	public ParticleSystem normalDeathParticle;
+	public ParticleSystem squishedParticle;
+
 	// Use this for initialization
 	void Start () {
         chasing = true;
@@ -82,7 +85,8 @@ public class enemyMovement : MonoBehaviour {
 	}
 
     public void destroy()
-    {	
+	{	Instantiate (normalDeathParticle, this.transform.position, Quaternion.identity);
+		
 		mousePlayer.GetComponent<MousePlayer> ().materials += 2;
 		enemySpawner.enemySpawned--; 
 		enemySpawner.enemyKilled++;
@@ -93,6 +97,8 @@ public class enemyMovement : MonoBehaviour {
 
     public void killedByBlock()
     {
+		Instantiate (squishedParticle, this.transform.position, Quaternion.Euler(-90f, 0f, 0f));
+
         enemySpawner.enemySpawned--;
         enemySpawner.enemyKilled++;
 		gameManager.score += 10 * gameManager.scoreMult;
@@ -108,19 +114,24 @@ public class enemyMovement : MonoBehaviour {
 
     public IEnumerator hurtFlash()
     {
+        GameObject enemybody = GameObject.Find("pSphere1");
+        Color originalColor = enemybody.GetComponent<Renderer>().material.color;
+        enemybody.GetComponent<Renderer>().material.color = Color.clear;
+        yield return new WaitForSeconds(.1f);
+        enemybody.GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.1f);
+        enemybody.GetComponent<Renderer>().material.color = Color.clear;
+        yield return new WaitForSeconds(.1f);
+        enemybody.GetComponent<Renderer>().material.color = originalColor;
         
-        Color originalColor = GetComponent<Renderer>().material.color;
-        //GetComponent<Renderer>().enabled = false;
+        /*Color originalColor = GetComponent<Renderer>().material.color;
         GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.1f);
-        //GetComponent<Renderer>().enabled = true;
         GetComponent<Renderer>().material.color = originalColor;
         yield return new WaitForSeconds(.1f);
-        //GetComponent<Renderer>().enabled = false;
         GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.1f);
-        //GetComponent<Renderer>().enabled = true;
-        GetComponent<Renderer>().material.color = originalColor;
+        GetComponent<Renderer>().material.color = originalColor;*/
     }
 
     IEnumerator attackBlock()

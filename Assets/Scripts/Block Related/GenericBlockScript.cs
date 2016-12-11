@@ -8,8 +8,21 @@ public class GenericBlockScript : MonoBehaviour {
     public bool onGround;
 	CameraController cam;
     public GameObject crushedEnemy; 
+
+	public AudioSource sfx2;
+	public AudioClip blockDropping;
+	public AudioClip blockImpact;
+	public AudioClip enemyImpact;
+
 	// Use this for initialization
 	void Start () {
+		sfx2 = GameObject.Find ("SFX2").GetComponent<AudioSource>();
+
+		sfx2.clip = blockDropping;
+		sfx2.Play ();
+
+
+
 		ptc = this.GetComponentsInChildren<ParticleSystem>();
         onGround = false;
 		particleTrail = ptc [0];
@@ -18,21 +31,42 @@ public class GenericBlockScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
 
-	void OnCollisionEnter(Collision col){
-		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block") {
-			particleTrail.Stop ();
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+
+        if (col.gameObject.tag == "Player" && onGround == false)
+        {
+            Destroy(gameObject);
+        }
+
+        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block")
+        {
+            //Play impact sound
+            sfx2.Stop();
+            sfx2.clip = blockImpact;
+            sfx2.Play();
+
+            particleTrail.Stop();
+
             onGround = true;
-			cam.ShakeCamera (1, 10, 1.5f, 1.5f, 1.5f);
-		}
+            cam.ShakeCamera(1, 10, 1.5f, 1.5f, 1.5f);
+        }
 
         if (col.gameObject.tag == "Enemy" && onGround == false)
         {
+
+            //Play impact sound
+            sfx2.Stop();
+            sfx2.clip = enemyImpact;
+            sfx2.Play();
+
+
             crushedEnemy = col.gameObject;
             crushedEnemy.GetComponent<enemyMovement>().killedByBlock();
         }
-	}
+    }
 
 }
