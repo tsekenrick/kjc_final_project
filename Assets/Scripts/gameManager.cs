@@ -7,9 +7,9 @@ public class gameManager : MonoBehaviour {
 
 	//Components for caluclating the score
 	public static int highestScore = 0;
-	public  int score = 0; 
-	public  int enemiesKilled = 0; //Used to affect the multiplyer
-	public  int scoreMult = 1;
+	public static int score = 0; 
+	public int enemiesKilled = 0; //Used to affect the multiplyer
+	public static int scoreMult = 1;
 
 	//Game objects for displaying the score on the UI
 	public Text Score; 

@@ -356,7 +356,7 @@ public class keyboardMovement : MonoBehaviour
         {
 			//Subtracts health, then resets values in the game manager
             gameManager.health--;
-			gm.scoreMult = 1;
+			gameManager.scoreMult = 1;
 			gm.enemiesKilled = 0;
 
 			//Shakes the camera when the player gets hurt

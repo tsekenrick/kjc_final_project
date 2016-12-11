@@ -90,7 +90,7 @@ public class enemyMovement : MonoBehaviour {
 		mousePlayer.GetComponent<MousePlayer> ().materials += 2;
 		enemySpawner.enemySpawned--; 
 		enemySpawner.enemyKilled++;
-		gm.score += 10 * gm.scoreMult;
+		gameManager.score += 10 * gameManager.scoreMult;
 		gm.enemiesKilled++;
         Destroy(gameObject);
     }
@@ -101,7 +101,7 @@ public class enemyMovement : MonoBehaviour {
 
         enemySpawner.enemySpawned--;
         enemySpawner.enemyKilled++;
-        gm.score += 10 * gm.scoreMult;
+		gameManager.score += 10 * gameManager.scoreMult;
         gm.enemiesKilled++;
         Destroy(gameObject);
     }

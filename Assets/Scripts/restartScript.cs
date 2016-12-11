@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class restartScript : MonoBehaviour {
 
-	public static int score; 
-	static int highestScore = 0;
 
 	//public Text Score; 
 	//public Text highScore;
@@ -14,19 +12,19 @@ public class restartScript : MonoBehaviour {
 	void Start () {
 	
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	if (Input.GetKeyDown(KeyCode.R))
         {
 			gameManager.health = gameManager.maxHealth;
-			score = 0;
+			gameManager.score = 0;
 			enemySpawner.enemySpawned = 0; 
 			enemySpawner.enemyKilled = 0;
             SceneManager.LoadScene(0);
         }
-		if (score > highestScore) {
-			highestScore = score;
+		if (gameManager.score > gameManager.highestScore) {
+			gameManager.highestScore = gameManager.score;
 		}
 
 		//Score.text = "Score: " + score; 
