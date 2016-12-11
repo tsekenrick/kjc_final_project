@@ -108,19 +108,24 @@ public class enemyMovement : MonoBehaviour {
 
     public IEnumerator hurtFlash()
     {
+        GameObject enemybody = GameObject.Find("pSphere1");
+        Color originalColor = enemybody.GetComponent<Renderer>().material.color;
+        enemybody.GetComponent<Renderer>().material.color = Color.clear;
+        yield return new WaitForSeconds(.1f);
+        enemybody.GetComponent<Renderer>().material.color = originalColor;
+        yield return new WaitForSeconds(.1f);
+        enemybody.GetComponent<Renderer>().material.color = Color.clear;
+        yield return new WaitForSeconds(.1f);
+        enemybody.GetComponent<Renderer>().material.color = originalColor;
         
-        Color originalColor = GetComponent<Renderer>().material.color;
-        //GetComponent<Renderer>().enabled = false;
+        /*Color originalColor = GetComponent<Renderer>().material.color;
         GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.1f);
-        //GetComponent<Renderer>().enabled = true;
         GetComponent<Renderer>().material.color = originalColor;
         yield return new WaitForSeconds(.1f);
-        //GetComponent<Renderer>().enabled = false;
         GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.1f);
-        //GetComponent<Renderer>().enabled = true;
-        GetComponent<Renderer>().material.color = originalColor;
+        GetComponent<Renderer>().material.color = originalColor;*/
     }
 
     IEnumerator attackBlock()
