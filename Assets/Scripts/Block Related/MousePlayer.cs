@@ -19,6 +19,18 @@ public class MousePlayer : MonoBehaviour {
 	//The game manager object
 	public gameManager gm;
 
+	//Used to change the colors of the reticule
+	public Material cyan;
+	public Material magenta;
+	public Material yellow;
+
+	//Each side of the reticule
+	public Renderer r1;
+	public Renderer r2;
+	public Renderer r3;
+	public Renderer r4;
+
+
 	void Start(){
 		Physics.gravity = new Vector3 (0f, -50f, 0f);
 		materials = 10;
@@ -76,6 +88,25 @@ public class MousePlayer : MonoBehaviour {
 			//changes display on the UI
 			gameManager.blockCount--;
 			gm.incrementBlockDisplay();
+		}
+
+		if (gm.blockQueue [0] == 0) {
+			r1.material = yellow;
+			r2.material = yellow;
+			r3.material = yellow;
+			r4.material = yellow;
+		}
+		if (gm.blockQueue [0] == 1) {
+			r1.material = cyan;
+			r2.material = cyan;
+			r3.material = cyan;
+			r4.material = cyan;
+		}
+		if (gm.blockQueue [0] == 2) {
+			r1.material = magenta;
+			r2.material = magenta;
+			r3.material = magenta;
+			r4.material = magenta;
 		}
 			
 	}

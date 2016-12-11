@@ -14,6 +14,9 @@ public class enemyMovement : MonoBehaviour {
     public bool chasing;
     public GameObject targetBlock;
 
+	public ParticleSystem normalDeathParticle;
+	public ParticleSystem squishedParticle;
+
 	// Use this for initialization
 	void Start () {
         chasing = true;
@@ -82,7 +85,8 @@ public class enemyMovement : MonoBehaviour {
 	}
 
     public void destroy()
-    {	
+	{	Instantiate (normalDeathParticle, this.transform.position, Quaternion.identity);
+		
 		mousePlayer.GetComponent<MousePlayer> ().materials += 2;
 		enemySpawner.enemySpawned--; 
 		enemySpawner.enemyKilled++;
@@ -93,6 +97,8 @@ public class enemyMovement : MonoBehaviour {
 
     public void killedByBlock()
     {
+		Instantiate (squishedParticle, this.transform.position, Quaternion.Euler(-90f, 0f, 0f));
+
         enemySpawner.enemySpawned--;
         enemySpawner.enemyKilled++;
         gm.score += 10 * gm.scoreMult;
