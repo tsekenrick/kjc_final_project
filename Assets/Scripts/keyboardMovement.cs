@@ -328,18 +328,19 @@ public class keyboardMovement : MonoBehaviour
 
     public IEnumerator hurtFlash()
     {
+        GameObject playerBody = GameObject.Find("pCylinder1");
         Color originalColor = GetComponent<Renderer>().material.color;
-        GetComponent<Renderer>().material.color = Color.clear;
+        playerBody.GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.33f);
-        GetComponent<Renderer>().material.color = originalColor;
+        playerBody.GetComponent<Renderer>().material.color = originalColor;
         yield return new WaitForSeconds(.33f);
-        GetComponent<Renderer>().material.color = Color.clear;
+        playerBody.GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.33f);
-        GetComponent<Renderer>().material.color = originalColor;
+        playerBody.GetComponent<Renderer>().material.color = originalColor;
         yield return new WaitForSeconds(.33f);
-        GetComponent<Renderer>().material.color = Color.clear;
+        playerBody.GetComponent<Renderer>().material.color = Color.clear;
         yield return new WaitForSeconds(.33f);
-        GetComponent<Renderer>().material.color = originalColor;
+        playerBody.GetComponent<Renderer>().material.color = originalColor;
         yield return new WaitForSeconds(.33f);
         canHurt = true;
     }

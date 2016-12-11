@@ -21,18 +21,25 @@ public class GenericBlockScript : MonoBehaviour {
 	
 	}
 
-	void OnCollisionEnter(Collision col){
-		if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block") {
-			particleTrail.Stop ();
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Block")
+        {
+            particleTrail.Stop();
             onGround = true;
-			cam.ShakeCamera (1, 10, 1.5f, 1.5f, 1.5f);
-		}
+            cam.ShakeCamera(1, 10, 1.5f, 1.5f, 1.5f);
+        }
 
         if (col.gameObject.tag == "Enemy" && onGround == false)
         {
             crushedEnemy = col.gameObject;
             crushedEnemy.GetComponent<enemyMovement>().killedByBlock();
         }
-	}
+
+        if (col.gameObject.tag == "Player" && onGround == false)
+        {
+            Destroy(gameObject);
+        }
+    }
 
 }
